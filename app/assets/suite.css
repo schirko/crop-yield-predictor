@@ -1,5 +1,6 @@
 /* Farm app suite: the shared look of Herd Planner, Yield Predictor and
-   Farm Equipment Planner. Suite version 8 (each app's colour in the header's corner; the gold underline).
+   Farm Equipment Planner. Suite version 8 (each app's colour in the header's corner; the gold underline);
+   version 9 (2026-10-12): Ask a Question, the support assistant's button and panel (end of this file).
 
    THE SAME FILE lives in all three apps. The master copy is
    herd-planner/brand/suite.css: change it there, then copy it into the other
@@ -278,4 +279,50 @@ a.suite-app .suite-app-status { color: var(--suite-deep-green); }
 @media (min-width: 601px) {
   .suite-bar nav a[aria-current="page"]:not(.suite-app), .suite-bar .head-nav a[aria-current="page"]:not(.suite-app) {
     color: #fff; text-decoration: none; box-shadow: 0 2px 0 var(--suite-gold); }
+}
+
+/* --- Ask a Question (suite version 9, 2026-10-12) --------------------------------------------------------
+   suite.js makes the panel; each page has the element that opens it (data-suite-ask): a "Ask a Question" item in
+   the apps' Learn menus, a round button at the bottom right of the company site and My Farm (.suite-ask-fab).
+   Hidden until My Farm says the assistant is on. Mockup: company-site/notes/ask-a-question-mockup-2026-10-12.png. */
+.suite-ask-hidden { display: none !important; }
+.suite-ask-fab { position: fixed; right: 24px; bottom: 24px; z-index: 900; display: inline-flex; align-items: center;
+  gap: 8px; padding: 12px 18px; border: 0; border-radius: 999px; background: var(--suite-deep-green); color: #fff;
+  font: 700 .95rem/1 var(--suite-font); box-shadow: 0 8px 24px rgba(0, 0, 0, .25); cursor: pointer; }
+.suite-ask-fab::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--suite-gold); }
+.suite-ask-fab:hover { background: #2f4c3d; }
+.suite-ask { position: fixed; right: 24px; bottom: 24px; z-index: 1000; width: 380px; max-height: min(640px, calc(100vh - 48px));
+  display: flex; flex-direction: column; overflow: hidden; background: var(--suite-surface); color: var(--suite-ink);
+  border: 1px solid var(--suite-line); border-radius: 14px; box-shadow: 0 16px 40px rgba(0, 0, 0, .28);
+  font: .95rem/1.45 var(--suite-font); text-align: left; }
+.suite-ask[hidden] { display: none; }
+.suite-ask-head { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: var(--suite-deep-green); color: #fff; }
+.suite-ask-head strong { display: block; font-size: 1rem; }
+.suite-ask-head small { display: block; margin-top: 2px; font-size: .75rem; opacity: .85; }
+.suite-ask-close { margin-left: auto; padding: 0 4px; border: 0; background: none; color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.suite-ask-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--suite-bg); }
+.suite-ask-msg { max-width: 88%; padding: 10px 12px; border-radius: 12px; }
+.suite-ask-msg p { margin: 0; }
+.suite-ask-msg.me { align-self: flex-end; background: var(--suite-deep-green); color: #fff; border-bottom-right-radius: 4px; }
+.suite-ask-msg.bot { align-self: flex-start; background: var(--suite-surface); border: 1px solid var(--suite-line); border-bottom-left-radius: 4px; }
+.suite-ask-msg.waiting { color: var(--suite-muted); font-style: italic; }
+.suite-ask .suite-ask-src { margin-top: 8px; font-size: .8rem; color: var(--suite-muted); }
+.suite-ask .suite-ask-src a { color: var(--suite-link); }
+.suite-ask-actions, .suite-ask-handoff { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.suite-ask-handoff label { display: flex; flex-direction: column; gap: 4px; width: 100%; font-size: .82rem; color: var(--suite-muted); }
+.suite-ask-handoff input { padding: 8px 10px; border: 1px solid var(--suite-line); border-radius: 8px; font: inherit; }
+.suite-ask-yes, .suite-ask-send { padding: 8px 12px; border: 0; border-radius: var(--suite-button-radius); background: var(--suite-gold);
+  color: var(--suite-deep-green); font: 700 .85rem/1.2 var(--suite-font); cursor: pointer; }
+.suite-ask-yes:hover, .suite-ask-send:hover { background: var(--suite-gold-hover); }
+.suite-ask-send:disabled { opacity: .6; cursor: wait; }
+.suite-ask-no { padding: 8px 12px; border: 1px solid var(--suite-gold-line); border-radius: var(--suite-button-radius);
+  background: var(--suite-surface); color: var(--suite-deep-green); font: 700 .85rem/1.2 var(--suite-font); cursor: pointer; }
+.suite-ask .suite-ask-done { margin-top: 8px; font-size: .85rem; color: var(--suite-deep-green); font-weight: 600; }
+.suite-ask-foot { margin: 0; padding: 10px 12px; border-top: 1px solid var(--suite-line); background: var(--suite-surface); }
+.suite-ask-row { display: flex; gap: 8px; }
+.suite-ask-row input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid #cfc9bb; border-radius: 8px; font: inherit; }
+.suite-ask .suite-ask-note { margin: 6px 0 0; font-size: .72rem; color: var(--suite-muted); }
+@media (max-width: 600px) {
+  .suite-ask { inset: 0; width: auto; max-height: none; border-radius: 0; border: 0; }
+  .suite-ask-fab { right: 16px; bottom: 16px; }
 }
