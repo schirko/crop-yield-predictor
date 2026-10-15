@@ -271,6 +271,14 @@ a.suite-app .suite-app-status { color: var(--suite-deep-green); }
 .suite-bar[data-app="farm-equipment-planner"] { --suite-app-color: #23374d; }
 .suite-bar[data-app="farm-account"] { --suite-app-color: #6e3229; }
 .suite-bar.has-corner { position: relative; padding-left: 86px !important; }
+/* Suite version 12 (Scott, 2026-10-15: "We need to make all the green headers the same height. It changes as I move
+   around"): from 641 px up every green bar, the company site's and every app's, is 68 px tall, its words centred in
+   it. Until now each app set its own padding, so the bars were 68 to 80 px. min-height, not height: a bar whose links
+   ever need a second line grows rather than spilling onto the page. (html body: outranks each app's own header rule.)
+   Phones keep each app's own phone header (the Menu button and the ranch's name under the title). */
+@media (min-width: 641px) {
+  html body .suite-bar { box-sizing: border-box; min-height: 68px; padding-top: 0; padding-bottom: 0; align-items: center; }
+}
 .suite-bar.has-corner::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 72px;
   background: var(--suite-app-color, transparent); }
 .suite-bar.has-corner .suite-crumbs:has(img.logo) { padding-left: 0; }
