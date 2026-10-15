@@ -334,3 +334,14 @@ a.suite-app .suite-app-status { color: var(--suite-deep-green); }
   .suite-ask { inset: 0; width: auto; max-height: none; border-radius: 0; border: 0; }
   .suite-ask-fab { right: 16px; bottom: 16px; }
 }
+
+/* Suite version 11 (2026-10-15): the eye in a password box (suite.js addEye), the look My Farm and the Grazing Planner
+   had: inside the box's right end, 36 px square for a thumb, grey until pointed at or pressed. */
+.suite-pw { position: relative; display: block; }
+span.suite-pw > input[type] { width: 100%; box-sizing: border-box; padding-right: 44px; }   /* [type]: outranks an app's own input[type=…] padding */
+button.suite-eye { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); display: flex; align-items: center;
+  justify-content: center; width: 36px; height: 36px; min-width: 0; min-height: 0; margin: 0; padding: 0; border: 0;
+  border-radius: 6px; background: none; color: var(--suite-muted); box-shadow: none; cursor: pointer; }
+button.suite-eye:hover:not(:disabled), button.suite-eye[aria-pressed="true"] { background: none; color: var(--suite-deep-green); }   /* not an app's gold button hover */
+button.suite-eye:focus-visible { outline: 2px solid var(--suite-deep-green); outline-offset: 1px; }
+.suite-eye svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
