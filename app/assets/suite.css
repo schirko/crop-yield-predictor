@@ -1,6 +1,7 @@
 /* Farm app suite: the shared look of Herd Planner, Yield Predictor and
    Farm Equipment Planner. Suite version 8 (each app's colour in the header's corner; the gold underline);
    version 9 (2026-10-12): Ask a Question, the support assistant's button and panel (end of this file).
+   Version 10 (2026-10-14): Coming Soon rows and My Farm at the bottom of the Farm Apps menu.
 
    THE SAME FILE lives in all three apps. The master copy is
    herd-planner/brand/suite.css: change it there, then copy it into the other
@@ -80,7 +81,7 @@ a { color: var(--suite-link); }
 .suite-apps-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px;
   padding: 2px 4px 12px; margin-bottom: 14px; border-bottom: 1px solid var(--suite-line); }
 .suite-apps-top .suite-apps-home { padding: 0; margin: 0; border-bottom: 0; white-space: nowrap; }
-.suite-apps-account { margin-left: auto; color: var(--suite-link); font-weight: 600; font-size: .9rem;
+.suite-apps-account { margin-left: auto; color: var(--suite-deep-green); font-weight: 700; font-size: .9rem;
   text-decoration: none; white-space: nowrap; }
 .suite-apps-account:hover { text-decoration: underline; }
 /* Suite version 5: the company's round icon (the Cornerpost Logic sunrise C) before the way home, in every
@@ -240,6 +241,13 @@ a.suite-app:hover, a.suite-app:focus-visible { background: var(--suite-gold-tint
 .suite-app-status { margin-top: 2px; font-size: .75rem; font-weight: 600; color: var(--suite-muted); white-space: nowrap; }
 a.suite-app .suite-app-status { color: var(--suite-deep-green); }
 .suite-app.here { background: var(--suite-surface); }
+/* Suite version 10 (Scott, 2026-10-14, chose A of company-site/notes/coming-soon-options-2026-10-14.png): an app
+   still being built shows in its group, its logo faded and "Coming Soon" where Open would be; it opens nothing.
+   And My Farm moves from the top right to a line at the bottom, as on the company site's menu ("I like that it
+   also has the My Farm link on the bottom"). */
+.suite-app.soon img { opacity: .6; }
+.suite-apps-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px;
+  margin: 14px 0 0; padding: 12px 4px 0; border-top: 1px solid var(--suite-line); font-size: .9rem; color: var(--suite-muted); }
 /* On a phone the panel spans the screen (so it can't run off the left edge), the groups stack, and a long
    panel scrolls inside itself. */
 @media (max-width: 600px) {
