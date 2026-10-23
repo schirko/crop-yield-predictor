@@ -1,0 +1,14 @@
+# The web app's exact versions (v0.2.0), for the Dockerfile on Render: FastAPI and what it needs (the same versions as
+# the Grazing Planner's requirements-lock.txt), plus pandas and pyarrow to read data/processed/. Not Streamlit,
+# geopandas or scikit-learn: the web app reads the files the scripts made and never trains anything.
+# tests/test_web_pages.py checks this list keeps to that.
+fastapi==0.143.0
+starlette==1.7.0
+pydantic==2.14.0
+pydantic-core==2.50.0
+uvicorn==0.54.0
+httpx==0.28.1
+cryptography==50.0.2
+numpy==2.5.4
+pandas==3.1.0
+pyarrow==26.0.0

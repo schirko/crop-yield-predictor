@@ -1,0 +1,355 @@
+/* Farm app suite: the shared look of Herd Planner, Yield Predictor and
+   Farm Equipment Planner. Suite version 8 (each app's colour in the header's corner; the gold underline);
+   version 9 (2026-10-12): Ask a Question, the support assistant's button and panel (end of this file).
+   Version 10 (2026-10-14): Coming Soon rows and My Farm at the bottom of the Farm Apps menu.
+
+   THE SAME FILE lives in all three apps. The master copy is
+   herd-planner/brand/suite.css: change it there, then copy it into the other
+   two (each app has a test that fails if its copy drifts from the master).
+
+   Each app loads this file first, then its own stylesheet for the pieces only
+   it has. Colors come from the logo family: deep green, wheat gold, cream. */
+
+:root {
+  /* Surfaces and text */
+  --suite-bg: #f7f6f2;          /* warm paper page background */
+  --suite-surface: #ffffff;     /* cards, tables, inputs */
+  --suite-ink: #1d1c1a;         /* body text */
+  --suite-muted: #5e5c57;       /* secondary text */
+  --suite-line: #e2e0d9;        /* borders and dividers */
+
+  /* Brand */
+  --suite-deep-green: #243b2f;  /* header bar, footer band, text on gold */
+  --suite-gold: #e0ac45;        /* buttons, active tabs, focus rings */
+  --suite-gold-hover: #e9bf68;  /* lighter on hover: deep green on it is 7.0:1 */
+  --suite-gold-line: #b8862b;   /* outline of secondary buttons */
+  --suite-gold-tint: #fbf3e2;   /* hover fill of secondary buttons */
+  --suite-link: #2a78d6;        /* links in body text */
+
+  /* Shape and type */
+  --suite-measure: 1180px;      /* how wide the footer's content runs */
+  --suite-radius: 10px;
+  --suite-button-radius: 8px;
+  --suite-font: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--suite-font);
+  background: var(--suite-bg);
+  color: var(--suite-ink);
+  line-height: 1.45;
+}
+a { color: var(--suite-link); }
+
+/* Keyboard focus: a gold ring on anything focusable, on both light and green backgrounds. */
+:focus-visible { outline: 3px solid var(--suite-gold); outline-offset: 2px; }
+
+/* Buttons. White on gold is too faint (2.1:1), so text on gold is deep green (5.8:1).
+   .btn is Herd Planner's class name and .button is the equipment planner's: both get the same look. */
+.btn, .button {
+  display: inline-block; border: 1px solid transparent; border-radius: var(--suite-button-radius);
+  padding: 9px 16px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none;
+  background: var(--suite-gold); color: var(--suite-deep-green);
+}
+.btn:hover:not(:disabled), .button:hover:not(:disabled) { background: var(--suite-gold-hover); }
+.btn.secondary, .button.secondary { background: var(--suite-surface); color: var(--suite-deep-green); border-color: var(--suite-gold-line); }
+.btn.secondary:hover:not(:disabled), .button.secondary:hover:not(:disabled) { background: var(--suite-gold-tint); }
+.btn:disabled, .button:disabled { opacity: .5; cursor: not-allowed; }
+
+/* The header bar: deep green, the app's logo and name in white. */
+.suite-bar { background: var(--suite-deep-green); color: #fff; }
+.suite-bar .suite-name { color: #fff; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+.suite-bar a:not(.btn):not(.button):not(.suite-app):not(.suite-apps-home):not(.suite-apps-account) { color: rgba(255, 255, 255, .88); }
+.suite-bar a:not(.btn):not(.button):not(.suite-app):not(.suite-apps-home):not(.suite-apps-account):hover { color: #fff; }
+/* The way back to the company site, top left, before the app's name (suite version 3):
+     <span class="suite-crumbs"><a class="suite-company" data-suite-company href="...">Company</a>
+       <span class="suite-crumb-sep" aria-hidden="true">›</span> ...the app's own name... </span>
+   Top left because that's where people expect the way home; lighter than the app's name so the
+   app still reads first. */
+.suite-crumbs { display: inline-flex; align-items: center; gap: 8px; }
+.suite-crumbs .suite-name { white-space: nowrap; }
+.suite-bar a.suite-company { color: rgba(255, 255, 255, .78); font-weight: 600; font-size: .9rem; text-decoration: none; white-space: nowrap; }
+.suite-bar a.suite-company:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.suite-crumb-sep { color: rgba(255, 255, 255, .5); font-size: 1rem; line-height: 1; }
+/* The first line of the Farm Apps menu: back to the company site */
+.suite-apps-home { display: block; padding: 6px 8px 10px; margin-bottom: 6px; border-bottom: 1px solid var(--suite-line);
+  color: var(--suite-link); font-weight: 600; font-size: .9rem; text-decoration: none; }
+.suite-apps-home:hover { text-decoration: underline; }
+/* Suite version 4: the menu's top row holds the way home (left) and "Your Account" (right, the suite's
+   account page). Either can be missing: the company site has no "home" link, farm-account no account link. */
+.suite-apps-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px;
+  padding: 2px 4px 12px; margin-bottom: 14px; border-bottom: 1px solid var(--suite-line); }
+.suite-apps-top .suite-apps-home { padding: 0; margin: 0; border-bottom: 0; white-space: nowrap; }
+.suite-apps-account { margin-left: auto; color: var(--suite-deep-green); font-weight: 700; font-size: .9rem;
+  text-decoration: none; white-space: nowrap; }
+.suite-apps-account:hover { text-decoration: underline; }
+/* Suite version 5: the company's round icon (the Cornerpost Logic sunrise C) before the way home, in every
+   app's header and at the top of the Farm Apps menu. It lives here, in the one shared stylesheet, as a data
+   address, so no app needs another image file and the drift tests already cover it. Source: company-site
+   static/brand/icon.svg. On the green header the badge's green circle disappears into the bar; on the
+   white menu panel it shows. */
+:root { --suite-company-icon: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkNvcm5lcnBvc3QgTG9naWMiPjx0aXRsZT5Db3JuZXJwb3N0IExvZ2ljPC90aXRsZT48ZGVmcz48Y2xpcFBhdGggaWQ9ImJhZGdlIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIvPjwvY2xpcFBhdGg+PC9kZWZzPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ4IiBmaWxsPSIjMjQzYjJmIi8+PGcgY2xpcC1wYXRoPSJ1cmwoI2JhZGdlKSI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTAgNTIpIHNjYWxlKC44NikgdHJhbnNsYXRlKC01MCAtNTIpIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1bmljb24iIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZjBjMzVhIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTA3NzJmIi8+PC9saW5lYXJHcmFkaWVudD48Y2xpcFBhdGggaWQ9ImFib3ZlaWNvbiI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI3NiIvPjwvY2xpcFBhdGg+PC9kZWZzPjxwYXRoIGNsaXAtcGF0aD0idXJsKCNhYm92ZWljb24pIiBkPSJNNzMuMDQgMjkuMjZBMzEgMzEgMCAxIDAgNzMuMDQgNzAuNzQiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNzdW5pY29uKSIgc3Ryb2tlLXdpZHRoPSIxMyIvPjxwYXRoIGQ9Ik01MCA0NEg3NU01MCA1N0g3NSIgc3Ryb2tlPSIjZjNlYWQ4IiBzdHJva2Utd2lkdGg9IjMuMiIvPjxyZWN0IHg9IjQwIiB5PSIzMCIgd2lkdGg9IjExIiBoZWlnaHQ9IjQ2IiByeD0iMS41IiBmaWxsPSIjZjNlYWQ4Ii8+PHBhdGggZD0iTTI2IDc2IDQyIDQ2IiBzdHJva2U9IiNmM2VhZDgiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB4PSItMTAiIHk9Ijc1IiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQiIHJ4PSIyIiBmaWxsPSIjZjNlYWQ4Ii8+PC9nPjwvZz48L3N2Zz4="); }
+.suite-bar a.suite-company::before, .suite-apps-home::before { content: ""; flex: none; display: inline-block;
+  background: var(--suite-company-icon) center / contain no-repeat; }
+.suite-apps-home::before { width: 20px; height: 20px; margin-right: 7px; vertical-align: -5px; }
+/* Suite version 6: the company ABOVE the app, one picture (option A on company-site
+   notes/logo/header-options.png). Side by side, the company's icon and name next to the app's logo and
+   name read as two brands; stacked, "Cornerpost Logic ›" over "Herd Planner" reads as a hierarchy, like
+   a series name over a book title. The app's logo (img.logo inside the name) stands to the left of both
+   lines. Works on every app's existing markup, so no page changed:
+     <div class="suite-crumbs"><a class="suite-company" ...>Cornerpost Logic</a>
+       <span class="suite-crumb-sep">›</span><h1 or a class="suite-name"><img class="logo">App</h1></div>
+   The company icon stays in the Farm Apps menu (.suite-apps-home). */
+.suite-crumbs { display: inline-grid; grid-template-columns: auto; align-items: center; position: relative; }
+.suite-crumbs:has(img.logo) { padding-left: 50px; }
+.suite-crumbs img.logo { position: absolute; left: 0; top: 50%; width: 40px; height: 40px; margin: 0; transform: translateY(-50%); }
+.suite-crumb-sep { display: none; }
+.suite-bar a.suite-company { display: block; grid-row: 1; font-size: .75rem; letter-spacing: .02em; line-height: 1.2; }
+.suite-bar a.suite-company::before { content: none; }
+.suite-bar a.suite-company::after { content: " \203A"; }
+.suite-crumbs > :not(.suite-company):not(.suite-crumb-sep) { grid-row: 2; margin: 0; line-height: 1.15; }
+@media (max-width: 480px) { .suite-bar a.suite-company { font-size: .7rem; } }
+/* Outline buttons that sit on the green bar */
+.suite-bar .btn.secondary, .suite-bar .button.secondary { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .6); }
+.suite-bar .btn.secondary:hover:not(:disabled), .suite-bar .button.secondary:hover:not(:disabled) { background: rgba(255, 255, 255, .12); }
+
+/*
+   THE DEEP FOOTER, shared by all three apps and the site.
+
+   Until suite version 3 this block was four lines - just the colours - and
+   every app invented its own layout on top of them: Farm Equipment Planner
+   .footer-inner at 960px with h2 headings, Herd Planner .footer-cols at
+   1180px with h4, the site .footer-grid. Three footers that looked alike by
+   coincidence, with nothing testing that they stayed that way. The layout
+   lives here now, so the drift tests cover it like everything else.
+
+   The markup each consumer writes:
+
+     footer.site-footer
+       div.footer-inner
+         div.footer-brand      the app's name, logo and one-line description
+         nav.footer-col        h2 heading, then anchors - one per column
+       div.footer-bottom       a rule, then the fine print and the copyright
+
+   Everything between these markers is also injected verbatim by Yield
+   Predictor, which is Streamlit and cannot load a stylesheet at all (its
+   sanitizer strips a link tag - measured, not assumed). It reads this file
+   and inlines this section, so it shares the rules rather than copying them.
+   Keep the markers, and keep this section free of anything Streamlit-hostile.
+
+   THE MARKERS BELOW ARE CLOSED COMMENTS ON PURPOSE. They used to be this
+   comment's own opening line, which meant Yield Predictor's slice began in
+   the middle of a comment and carried an orphaned close. The browser read
+   that prose as a broken selector and its error recovery swallowed the rule
+   that followed - the one setting the background - so the footer rendered
+   with no green at all while every later rule applied normally. Keep each
+   marker a complete comment, and the slice stays valid CSS on its own. */
+
+/* == suite-footer:start == */
+.site-footer {
+  background: var(--suite-deep-green, #243b2f); color: rgba(255, 255, 255, .82);
+  font-size: .9rem;
+}
+.site-footer a { color: rgba(255, 255, 255, .82); text-decoration: none; }
+.site-footer a:hover, .site-footer a:focus-visible { color: #fff; text-decoration: underline; }
+
+/* Flex, not grid, and for a reason worth recording. The obvious replacement
+   for Farm Equipment Planner's hardcoded repeat(4, 1fr) - which left the
+   two-column site with empty cells - was
+   "1.4fr repeat(auto-fit, minmax(150px, 1fr))". That is INVALID CSS: the
+   spec forbids combining auto-fit with a flexible (fr) track, so the whole
+   declaration is dropped and the footer silently becomes one column. It was
+   caught by reading gridTemplateColumns back out of a browser, not by
+   reading the rule. Flex wrapping handles two, three or four columns with
+   no such trap.
+
+   EVERY var() in this section carries a fallback, and that is a rule, not a
+   style choice. Yield Predictor injects this section on its own, without the
+   :root block above it, so a bare var(--suite-deep-green) resolves to nothing
+   and the footer loses its green entirely - which is exactly what happened
+   the first time. A test in that app fails if a fallback goes missing. */
+.footer-inner {
+  max-width: var(--suite-measure, 1180px); margin: 0 auto; padding: 32px 20px 16px;
+  display: flex; flex-wrap: wrap; gap: 24px 32px; align-items: flex-start;
+}
+.footer-brand { flex: 1 1 260px; max-width: 340px; }
+.footer-col { flex: 1 1 150px; }
+.footer-brand .brand, .footer-brand .footer-name {
+  color: #fff; font-weight: 700; font-size: 1.05rem; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px; margin: 0;
+}
+.footer-brand img.logo { width: 40px; height: 40px; }
+.footer-brand p { margin: 8px 0 0; max-width: 280px; }
+.site-footer nav.footer-col { display: block; }
+.footer-col h2 {
+  font-size: .8rem; text-transform: uppercase; letter-spacing: .06em;
+  color: #fff; margin: 0 0 8px; font-weight: 700;
+}
+.footer-col a { display: block; padding: 3px 0; }
+.footer-bottom {
+  max-width: var(--suite-measure, 1180px); margin: 0 auto; padding: 14px 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, .18); font-size: .85rem;
+}
+.footer-bottom p { margin: 4px 0; }
+.footer-bottom a { color: #fff; }
+@media (max-width: 760px) {
+  .footer-brand { flex: 1 1 100%; max-width: none; }
+  .footer-col { flex: 1 1 40%; }
+}
+/* == suite-footer:end == */
+
+/* Cards */
+.card { background: var(--suite-surface); border: 1px solid var(--suite-line); border-radius: var(--suite-radius); }
+
+/* The "Farm apps" menu in the header (built by suite.js from suite-apps.json).
+   A <details> element: a click on "Farm Apps" opens the panel of every app.
+   Suite version 7 (Scott, 2026-10-11: "I like this style for the header menus"): the company site's look in
+   every app. The button is a text link with a small down arrow and the gold underline when pointed at or open,
+   and the panel shows the apps in the site's two groups (For Ranches, For Farms), each under a slim green band.
+   Mockup: herd-planner/notes/farm-apps-menu-site-style-2026-10-11.png. */
+.suite-apps { position: relative; }
+.suite-apps > summary {
+  list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  padding: 4px 0; color: rgba(255, 255, 255, .88); font-size: .95rem; font-weight: 600; white-space: nowrap;
+}
+.suite-apps > summary::-webkit-details-marker { display: none; }
+.suite-apps > summary::after { content: ""; width: 6px; height: 6px; margin-top: -3px; border: solid currentColor;
+  border-width: 0 2px 2px 0; transform: rotate(45deg); transition: transform .15s; }   /* a small down arrow */
+.suite-apps[open] > summary::after { transform: rotate(-135deg); margin-top: 3px; }
+.suite-apps > summary:hover, .suite-apps[open] > summary { color: #fff; box-shadow: 0 2px 0 var(--suite-gold); }
+.suite-apps > summary:focus-visible { outline: 2px solid var(--suite-gold); outline-offset: 3px; border-radius: 2px; }
+.suite-apps-panel {
+  position: absolute; right: 0; top: calc(100% + 12px); z-index: 50; width: min(700px, calc(100vw - 32px));
+  box-sizing: border-box; background: var(--suite-surface); color: var(--suite-ink); border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .18); padding: 16px 18px;
+}
+/* The groups, as on the company site's menu: a slim deep-green band with the group's name and one line. */
+.suite-ops { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.suite-op { background: #faf8f2; border-radius: 12px; padding: 0 0 8px; overflow: hidden; }
+.suite-op-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; margin: 0 0 8px;
+  padding: 9px 14px; background: var(--suite-deep-green); }
+.suite-op-title { margin: 0; font-size: 1rem; font-weight: 700; color: #fff; }
+.suite-op-lead { margin: 0; font-size: .82rem; color: #dbe6df; }
+.suite-app { display: flex; align-items: flex-start; gap: 10px; padding: 8px; margin: 0 6px 2px; border-radius: 10px;
+  color: var(--suite-ink); text-decoration: none; }
+a.suite-app:hover, a.suite-app:focus-visible { background: var(--suite-gold-tint); }
+.suite-app img { width: 40px; height: 40px; flex: none; }
+.suite-app-words { display: flex; flex-direction: column; min-width: 0; flex: 1; font-size: .85rem; line-height: 1.3; }
+.suite-app-words strong { font-size: .95rem; }
+.suite-app-words span { color: var(--suite-muted); }
+.suite-app-status { margin-top: 2px; font-size: .75rem; font-weight: 600; color: var(--suite-muted); white-space: nowrap; }
+a.suite-app .suite-app-status { color: var(--suite-deep-green); }
+.suite-app.here { background: var(--suite-surface); }
+/* Suite version 10 (Scott, 2026-10-14, chose A of company-site/notes/coming-soon-options-2026-10-14.png): an app
+   still being built shows in its group, its logo faded and "Coming Soon" where Open would be; it opens nothing.
+   And My Farm moves from the top right to a line at the bottom, as on the company site's menu ("I like that it
+   also has the My Farm link on the bottom"). */
+.suite-app.soon img { opacity: .6; }
+.suite-apps-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px;
+  margin: 14px 0 0; padding: 12px 4px 0; border-top: 1px solid var(--suite-line); font-size: .9rem; color: var(--suite-muted); }
+/* On a phone the panel spans the screen (so it can't run off the left edge), the groups stack, and a long
+   panel scrolls inside itself. */
+@media (max-width: 600px) {
+  .suite-apps { position: static; }
+  .suite-apps-panel { position: absolute; top: auto; left: 8px; right: 8px; width: auto; margin-top: 8px;
+    max-height: calc(100vh - 110px); overflow-y: auto; padding: 12px; }
+  .suite-ops { grid-template-columns: 1fr; gap: 12px; }
+}
+
+/* Suite version 8 (Scott, 2026-10-12, from the Yield Predictor's header: "it creates a brand for that app and just
+   really helps a person know what app they are on. No confusion."): the app's own colour fills the header's left
+   end, top to bottom, and the app's logo (a tile of that same colour, so its edge disappears) stands in it, 30%
+   larger. A header opts in with class="suite-bar has-corner" and data-app="<app id>"; the colours are the logo
+   tiles' (brand/README.md), in one place here. Herd Planner's tile moved from the header's own green #243b2f to a
+   pasture green #3f6e4e the same day (option H1), because its corner would otherwise vanish into the bar. The
+   logo stays tied to the name lines (left: -70px from them), so a two-row phone header keeps it beside the name.
+   Mockup: herd-planner/notes/app-corners-2026-10-12.png. */
+.suite-bar[data-app="herd-planner"] { --suite-app-color: #3f6e4e; }
+.suite-bar[data-app="corn-yield-predictor"] { --suite-app-color: #4a3520; }
+.suite-bar[data-app="grazing-planner"] { --suite-app-color: #2f5d5a; }
+.suite-bar[data-app="farm-equipment-planner"] { --suite-app-color: #23374d; }
+.suite-bar[data-app="farm-account"] { --suite-app-color: #6e3229; }
+.suite-bar.has-corner { position: relative; padding-left: 86px !important; }
+/* Suite version 12 (Scott, 2026-10-15: "We need to make all the green headers the same height. It changes as I move
+   around"): from 641 px up every green bar, the company site's and every app's, is 68 px tall, its words centred in
+   it. Until now each app set its own padding, so the bars were 68 to 80 px. min-height, not height: a bar whose links
+   ever need a second line grows rather than spilling onto the page. (html body: outranks each app's own header rule.)
+   Phones keep each app's own phone header (the Menu button and the ranch's name under the title). */
+@media (min-width: 641px) {
+  html body .suite-bar { box-sizing: border-box; min-height: 68px; padding-top: 0; padding-bottom: 0; align-items: center; }
+}
+.suite-bar.has-corner::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 72px;
+  background: var(--suite-app-color, transparent); }
+.suite-bar.has-corner .suite-crumbs:has(img.logo) { padding-left: 0; }
+.suite-bar.has-corner .suite-crumbs img.logo { left: -70px; transform: translateY(-50%) scale(1.3); z-index: 1; }
+.suite-bar.has-corner > .wrap { max-width: none; margin: 0; padding-left: 0; }
+@media (max-width: 600px) {
+  .suite-bar.has-corner { padding-left: 70px !important; }
+  .suite-bar.has-corner::before { width: 58px; }
+  .suite-bar.has-corner .suite-crumbs img.logo { left: -59px; transform: translateY(-50%) scale(1.1); }
+}
+/* Suite version 8, Scott: "also the underlined links": the page you're on, in any app's header, is white with the
+   gold underline on a computer, as on the company site and the Yield Predictor. Each app marks it with
+   aria-current="page"; on a phone each app's own menu shows it its own way. */
+@media (min-width: 601px) {
+  .suite-bar nav a[aria-current="page"]:not(.suite-app), .suite-bar .head-nav a[aria-current="page"]:not(.suite-app) {
+    color: #fff; text-decoration: none; box-shadow: 0 2px 0 var(--suite-gold); }
+}
+
+/* --- Ask a Question (suite version 9, 2026-10-12) --------------------------------------------------------
+   suite.js makes the panel; each page has the element that opens it (data-suite-ask): a "Ask a Question" item in
+   the apps' Learn menus, a round button at the bottom right of the company site and My Farm (.suite-ask-fab).
+   Hidden until My Farm says the assistant is on. Mockup: company-site/notes/ask-a-question-mockup-2026-10-12.png. */
+.suite-ask-hidden { display: none !important; }
+.suite-ask-fab { position: fixed; right: 24px; bottom: 24px; z-index: 900; display: inline-flex; align-items: center;
+  gap: 8px; padding: 12px 18px; border: 0; border-radius: 999px; background: var(--suite-deep-green); color: #fff;
+  font: 700 .95rem/1 var(--suite-font); box-shadow: 0 8px 24px rgba(0, 0, 0, .25); cursor: pointer; }
+.suite-ask-fab::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--suite-gold); }
+.suite-ask-fab:hover { background: #2f4c3d; }
+.suite-ask { position: fixed; right: 24px; bottom: 24px; z-index: 1000; width: 380px; max-height: min(640px, calc(100vh - 48px));
+  display: flex; flex-direction: column; overflow: hidden; background: var(--suite-surface); color: var(--suite-ink);
+  border: 1px solid var(--suite-line); border-radius: 14px; box-shadow: 0 16px 40px rgba(0, 0, 0, .28);
+  font: .95rem/1.45 var(--suite-font); text-align: left; }
+.suite-ask[hidden] { display: none; }
+.suite-ask-head { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: var(--suite-deep-green); color: #fff; }
+.suite-ask-head strong { display: block; font-size: 1rem; }
+.suite-ask-head small { display: block; margin-top: 2px; font-size: .75rem; opacity: .85; }
+.suite-ask-close { margin-left: auto; padding: 0 4px; border: 0; background: none; color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.suite-ask-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--suite-bg); }
+.suite-ask-msg { max-width: 88%; padding: 10px 12px; border-radius: 12px; }
+.suite-ask-msg p { margin: 0; }
+.suite-ask-msg.me { align-self: flex-end; background: var(--suite-deep-green); color: #fff; border-bottom-right-radius: 4px; }
+.suite-ask-msg.bot { align-self: flex-start; background: var(--suite-surface); border: 1px solid var(--suite-line); border-bottom-left-radius: 4px; }
+.suite-ask-msg.waiting { color: var(--suite-muted); font-style: italic; }
+.suite-ask .suite-ask-src { margin-top: 8px; font-size: .8rem; color: var(--suite-muted); }
+.suite-ask .suite-ask-src a { color: var(--suite-link); }
+.suite-ask-actions, .suite-ask-handoff { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.suite-ask-handoff label { display: flex; flex-direction: column; gap: 4px; width: 100%; font-size: .82rem; color: var(--suite-muted); }
+.suite-ask-handoff input { padding: 8px 10px; border: 1px solid var(--suite-line); border-radius: 8px; font: inherit; }
+.suite-ask-yes, .suite-ask-send { padding: 8px 12px; border: 0; border-radius: var(--suite-button-radius); background: var(--suite-gold);
+  color: var(--suite-deep-green); font: 700 .85rem/1.2 var(--suite-font); cursor: pointer; }
+.suite-ask-yes:hover, .suite-ask-send:hover { background: var(--suite-gold-hover); }
+.suite-ask-send:disabled { opacity: .6; cursor: wait; }
+.suite-ask-no { padding: 8px 12px; border: 1px solid var(--suite-gold-line); border-radius: var(--suite-button-radius);
+  background: var(--suite-surface); color: var(--suite-deep-green); font: 700 .85rem/1.2 var(--suite-font); cursor: pointer; }
+.suite-ask .suite-ask-done { margin-top: 8px; font-size: .85rem; color: var(--suite-deep-green); font-weight: 600; }
+.suite-ask-foot { margin: 0; padding: 10px 12px; border-top: 1px solid var(--suite-line); background: var(--suite-surface); }
+.suite-ask-row { display: flex; gap: 8px; }
+.suite-ask-row input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid #cfc9bb; border-radius: 8px; font: inherit; }
+.suite-ask .suite-ask-note { margin: 6px 0 0; font-size: .72rem; color: var(--suite-muted); }
+@media (max-width: 600px) {
+  .suite-ask { inset: 0; width: auto; max-height: none; border-radius: 0; border: 0; }
+  .suite-ask-fab { right: 16px; bottom: 16px; }
+}
+
+/* Suite version 11 (2026-10-15): the eye in a password box (suite.js addEye), the look My Farm and the Grazing Planner
+   had: inside the box's right end, 36 px square for a thumb, grey until pointed at or pressed. */
+.suite-pw { position: relative; display: block; }
+span.suite-pw > input[type] { width: 100%; box-sizing: border-box; padding-right: 44px; }   /* [type]: outranks an app's own input[type=…] padding */
+button.suite-eye { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); display: flex; align-items: center;
+  justify-content: center; width: 36px; height: 36px; min-width: 0; min-height: 0; margin: 0; padding: 0; border: 0;
+  border-radius: 6px; background: none; color: var(--suite-muted); box-shadow: none; cursor: pointer; }
+button.suite-eye:hover:not(:disabled), button.suite-eye[aria-pressed="true"] { background: none; color: var(--suite-deep-green); }   /* not an app's gold button hover */
+button.suite-eye:focus-visible { outline: 2px solid var(--suite-deep-green); outline-offset: 1px; }
+.suite-eye svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }

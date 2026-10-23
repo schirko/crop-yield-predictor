@@ -28,3 +28,10 @@ pytest
 # gridMET (4 km weather), for the weather-source comparison.
 # Optional: only scripts/fetch_gridmet.py imports it, and lazily.
 pygridmet
+
+# The web app (v0.2.0, src/yieldpred/web): FastAPI like the suite's other apps. Online it runs the exact versions in
+# requirements-web.txt; here any recent ones will do.
+fastapi
+uvicorn
+httpx
+cryptography

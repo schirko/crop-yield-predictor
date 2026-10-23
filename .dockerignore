@@ -1,0 +1,12 @@
+# Keep the image small and free of anything private: only what the Dockerfile copies is needed.
+.env
+.venv*/
+.git/
+.idea/
+notes/
+notebooks/
+figures/
+cache/
+data/raw/
+**/__pycache__/
+*.pyc

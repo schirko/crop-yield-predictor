@@ -1,0 +1,25 @@
+{
+  "about": "The farm app suite: one list of apps for every app's 'Farm apps' menu. Master copy: herd-planner/brand/suite-apps.json. Set an app's url when it goes live; null shows 'Coming soon'. 'company' is the company site every app links back to (top left and the top of this menu); change its name and url here when the company is named. 'account' is the suite's one home page for people signed in (farm-account; called My Farm since 2026-10-11, at apps.cornerpostlogic.com since 2026-10-12), linked at the bottom of this menu (suite version 10; the top right before) in every app but itself. 'groups' (suite version 7, 2026-10-11) sorts the apps in every Farm Apps menu the way the company site's menu does, by operation; an app in no group isn't shown. A group's 'soon' (suite version 10, 2026-10-14) lists apps still being built, by id, name and one line: each shows in that group as a greyed Coming Soon row that opens nothing; move it to 'apps' (and the group's 'apps') when it opens.",
+  "version": 1,
+  "company": {"name": "Cornerpost Logic", "url": "https://cornerpostlogic.com/"},
+  "account": {"name": "My Farm", "url": "https://apps.cornerpostlogic.com/app/"},
+  "groups": [
+    {"title": "For Ranches", "lead": "Cattle and grass", "apps": ["herd-planner", "grazing-planner"],
+     "soon": [{"id": "hay-feed-planner", "name": "Hay & Feed Planner", "what": "Winter hay needs and what they cost"}]},
+    {"title": "For Farms", "lead": "Crops and machines", "apps": ["corn-yield-predictor", "farm-equipment-planner"]}
+  ],
+  "apps": [
+    {"id": "herd-planner", "name": "Herd Planner",
+     "what": "Keep-or-sell decisions for cow-calf ranches",
+     "url": "https://herd-planner.onrender.com/"},
+    {"id": "corn-yield-predictor", "name": "Yield Predictor",
+     "what": "County crop yields from weather, soils and irrigation",
+     "url": "https://nebraska-yield-predictor-izzr8x4rxcppkcfjmqmiej.streamlit.app/"},
+    {"id": "grazing-planner", "name": "Grazing Planner",
+     "what": "This season's grass and how many head a pasture can carry",
+     "url": "https://grazing-planner.onrender.com/"},
+    {"id": "farm-equipment-planner", "name": "Farm Equipment Planner",
+     "what": "Whether a tractor, combine or implement pays for itself",
+     "url": "https://farm-equipment-planner.onrender.com/"}
+  ]
+}

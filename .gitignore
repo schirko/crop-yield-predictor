@@ -34,3 +34,7 @@ data/raw/*
 *.tif
 *.tiff
 *.zip
+
+# --- Download caches ---
+# pygridmet (scripts/fetch_gridmet.py) keeps the gridMET files it downloads in ./cache; they can be fetched again.
+cache/

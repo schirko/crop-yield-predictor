@@ -4,12 +4,21 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "yieldpred"
-version = "0.1.0"
+version = "0.2.0"
 description = "Spatial prediction of Nebraska county corn yields from weather, soils and cropland data"
 requires-python = ">=3.12"
+
+[project.optional-dependencies]
+# v0.2.0: the web app (src/yieldpred/web), FastAPI like the suite's other apps. The exact versions it runs online are in
+# requirements-web.txt (the Grazing Planner's versions of the same libraries).
+web = ["fastapi>=0.115", "uvicorn>=0.30", "httpx>=0.27", "cryptography>=43", "pandas>=2.2", "pyarrow", "numpy"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"yieldpred.web" = ["static/*", "static/*/*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+filterwarnings = ["ignore:Using `httpx` with `starlette.testclient`"]

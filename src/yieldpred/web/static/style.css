@@ -1,0 +1,217 @@
+/* Yield Predictor web app: the page's own look, on top of the suite's shared suite.css (colors, buttons, header, footer).
+   The header part (to "Your county") is the Grazing Planner's, so every app's green bar and white row behave alike. */
+* { box-sizing: border-box; }
+/* The footer sits at the bottom of the window even when a page is short (sign-in, My Ranch empty):
+   the page is a column as tall as the window, and main takes the spare height. */
+body { margin: 0; line-height: 1.45; min-height: 100vh; display: flex; flex-direction: column; }
+.hidden { display: none !important; }
+
+header.top { padding: 12px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+header.top h1 { margin: 0; font-size: 1.35rem; }
+header.top .spacer { flex: 1; }
+/* The header's own links, like the company site's menu: white, bold, gold underline on hover. v0.16.1: only the bar's
+   own links (">"): the Farm Apps menu sits inside this nav too, and these rules turned its app names white on cream. */
+.head-nav { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+.suite-bar .head-nav > a { color: #fff; font-weight: 600; font-size: .9rem; text-decoration: none; padding: 4px 0;
+  border-bottom: 2px solid transparent; }
+.suite-bar .head-nav > a:hover { border-bottom-color: var(--suite-gold); color: #fff; }
+/* Learn and your-name menus: the words look like the links beside them, with a small arrow, and open a
+   white panel like Farm Apps. <details> elements, so they work without JavaScript (session.js closes them
+   on a click elsewhere, a chosen item or Escape). */
+.head-menu { position: relative; }
+.head-menu > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+  color: #fff; font-weight: 600; font-size: .9rem; padding: 4px 0; border-bottom: 2px solid transparent; white-space: nowrap; }
+.head-menu > summary::-webkit-details-marker { display: none; }
+.head-menu > summary::after { content: ""; width: 6px; height: 6px; margin: -3px 2px 0 1px; border: solid currentColor;
+  border-width: 0 2px 2px 0; transform: rotate(45deg); transition: transform .15s; }   /* a small down arrow */
+.head-menu[open] > summary::after { transform: rotate(-135deg); margin-top: 3px; }
+.head-menu > summary:hover, .head-menu[open] > summary { border-bottom-color: var(--suite-gold); }
+.head-menu > summary:focus-visible { outline: 2px solid var(--suite-gold); outline-offset: 3px; border-radius: 2px; }
+#me-name { max-width: 14ch; overflow: hidden; text-overflow: ellipsis; }
+.head-menu:has([aria-current="page"]) > summary { border-bottom-color: var(--suite-gold); }   /* on the Account page (gold since v0.13.2, suite v8) */
+.head-menu-panel { position: absolute; right: 0; top: calc(100% + 8px); z-index: 50; min-width: 190px; padding: 6px;
+  display: flex; flex-direction: column; background: var(--suite-surface); border: 1px solid var(--suite-line);
+  border-radius: var(--suite-radius); box-shadow: 0 8px 24px rgba(0, 0, 0, .18); }
+.suite-bar .head-nav .head-menu-panel a, .head-menu-panel button { display: block; width: 100%; box-sizing: border-box;
+  text-align: left; padding: 9px 12px; border: 0; border-radius: 8px; background: none; color: var(--suite-ink) !important;
+  font: inherit; font-size: .92rem; font-weight: 600; text-decoration: none; cursor: pointer; }
+/* !important: suite.css makes every header link white with a long :not() chain that outranks this one. */
+.suite-bar .head-nav .head-menu-panel a:hover, .head-menu-panel button:hover,
+.suite-bar .head-nav .head-menu-panel a:focus-visible, .head-menu-panel button:focus-visible { background: var(--suite-gold-tint); color: var(--suite-ink); }
+.suite-bar .head-nav .head-menu-panel a[aria-current="page"] { text-decoration: none; box-shadow: inset 3px 0 0 var(--suite-gold); }
+.head-menu-panel button { border-top: 1px solid var(--suite-line); border-radius: 0 0 8px 8px; margin-top: 4px; }
+/* The Admin list (v0.20.0, M1): every admin page, in every app, from My Farm. */
+.head-menu-panel .me-admin-title { margin: 6px 0 0; padding: 8px 12px 2px; border-top: 1px solid var(--suite-line); font-size: .74rem;
+  font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--suite-muted); }
+.suite-bar .head-nav .head-menu-panel a.me-admin-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; white-space: nowrap; }
+.me-admin-here { font-size: .78rem; font-weight: 600; color: var(--suite-muted); }
+/* On a phone the panel spans the screen (like Farm Apps), so it can't run off either edge. */
+@media (max-width: 600px) {
+  .head-menu { position: static; }
+  .head-menu-panel { left: 16px; right: 16px; top: auto; margin-top: 8px; }
+}
+/* On a phone (v0.14.0; Scott, 2026-10-13: one phone header for every app, Herd Planner's, from
+   herd-planner/notes/phone-headers-now-and-proposed-2026-10-13.png): the name on the left, Sign In and Menu on the
+   right, and Menu opens a white list, one thing to a row with a grey note: Planner, Season Map, My Ranch, My Herd,
+   Learn's links, Farm Apps, then Account and Sign Out. Before, the links wrapped onto two more lines of the header.
+   Tablets and computers keep the row of links. */
+.menu-btn, .signin-bar { display: none; }
+@media (max-width: 640px) {
+  header.top { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px 10px; align-items: center; }
+  header.top > .spacer { display: none; }
+  header.top .suite-crumbs { grid-column: 1; grid-row: 1; min-width: 0; }
+  header.top h1 { font-size: 1.2rem; }
+  .suite-bar a.signin-bar { display: inline-flex; align-items: center; grid-column: 2; grid-row: 1; min-height: 40px;
+    box-sizing: border-box; padding: 8px 12px; border: 2px solid var(--suite-gold); border-radius: var(--suite-button-radius);
+    color: #fff; font-size: .9rem; font-weight: 700; text-decoration: none; }
+  .menu-btn { display: inline-flex; align-items: center; gap: 6px; grid-column: 3; grid-row: 1; min-height: 40px;
+    padding: 8px 12px; background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, .6); border-radius: 8px;
+    font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer; }
+  .menu-btn[aria-expanded="true"] { background: rgba(255, 255, 255, .16); }
+  .head-nav { display: none; grid-column: 1 / -1; }
+  header.top.menu-open .head-nav { display: flex; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 0;
+    margin-top: 2px; background: var(--suite-surface); border-radius: 12px; box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
+    overflow: hidden; }
+  /* Learn and the menu under your name: Menu opens them (session.js) and their links become rows. No Learn button:
+     the Menu already is a menu. Sign In is on the bar, so not in the list. */
+  .head-nav .head-menu, .head-nav .head-menu-panel { display: contents; }
+  .head-nav .head-menu > summary, .suite-bar .head-nav a.signin { display: none; }
+  .suite-bar .head-nav > a, .suite-bar .head-nav .head-menu-panel a, .head-nav .head-menu-panel button,
+  .head-nav .suite-apps > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    width: 100%; box-sizing: border-box; min-height: 52px; margin: 0; padding: 12px 16px; border: 0;
+    border-bottom: 1px solid var(--suite-line); border-radius: 0; background: transparent; color: var(--suite-ink) !important;
+    font: inherit; font-size: 1rem; font-weight: 600; text-align: left; text-decoration: none; box-shadow: none; }
+  .suite-bar .head-nav > a[aria-current="page"], .suite-bar .head-nav .head-menu-panel a[aria-current="page"] {
+    text-decoration: none; box-shadow: inset 4px 0 0 var(--suite-gold); }
+  .head-nav .me-admin-here { display: none; }   /* the phone row's note says it */
+  .suite-bar .head-nav .head-menu-panel a.me-admin-row { white-space: normal; }
+  .head-nav a[data-note]::after { content: attr(data-note) " \203A"; color: var(--suite-muted); font-size: .9rem;
+    font-weight: 400; text-align: right; }
+  .suite-bar .head-nav > a:active, .head-nav .head-menu-panel button:active { background: var(--suite-bg); }
+  .head-nav .suite-apps > summary::before { content: none; }
+  .head-nav .suite-apps > summary::after { content: "Our other apps \203A"; color: var(--suite-muted); font-size: .9rem;
+    font-weight: 400; width: auto; height: auto; margin: 0; border: 0; transform: none; transition: none; }
+  .head-nav .head-menu-panel button { color: var(--suite-deep-green) !important; font-weight: 700; border-bottom: 0; }
+}
+
+/* The season strip under the header: the logo's cream, so it stands apart from the green header
+   (a second green beside it looked like a mismatch) and gold still means "you can click this". */
+.banner { background: #f3ead8; color: var(--suite-deep-green); border-bottom: 1px solid #e2d3ac; padding: 9px 20px; font-size: .92rem; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.banner-tag { background: var(--suite-deep-green); color: #fff; font-weight: 700; border-radius: 999px; padding: 2px 10px; }
+@media (min-width: 641px) {   /* the phone Menu is below 641 px */
+  .bar-sep { display: inline-block; width: 1px; height: 20px; background: rgba(255, 255, 255, .3); align-self: center; }
+  .head-nav .suite-apps > summary { font-size: .9rem; }   /* the same size as My Farm and Learn beside it */
+}
+/* v0.16.3: lined up with the page under it (main's 1,080 px column), as My Farm's row is with its own: the first
+   name starts where the page's words start. */
+.app-nav { display: flex; align-items: stretch; min-height: 44px; padding: 0 max(10px, calc((100% - 1080px) / 2 + 10px));
+  background: #fff; border-bottom: 1px solid var(--suite-line); overflow-x: auto; scrollbar-width: none; }
+.app-nav::-webkit-scrollbar { display: none; }
+.app-nav a { display: flex; align-items: center; padding: 0 10px; color: var(--suite-deep-green); font-weight: 600;
+  font-size: .93rem; text-decoration: none; white-space: nowrap; border-bottom: 3px solid transparent; }
+.app-nav a:hover { border-bottom-color: var(--suite-line); }
+.app-nav a[aria-current="page"] { border-bottom-color: var(--suite-gold); }
+.app-nav a:focus-visible { outline: 2px solid var(--suite-gold); outline-offset: -4px; border-radius: 4px; }
+@media (max-width: 640px) {
+  .app-nav { padding: 0 6px; }
+  .app-nav a { font-size: .9rem; padding: 0 8px; }
+}
+/* Suite version 12 (2026-10-15): every green bar is 68 px tall from 641 px up (suite.css). On a narrow tablet the name
+   and the links sit a little closer and smaller so they stay on one line. */
+@media (max-width: 767px) and (min-width: 641px) {
+  header.top { flex-wrap: nowrap; }                  /* the links never drop to a second line... */
+  header.top .suite-crumbs { flex: 0 1 auto; min-width: 0; }
+  header.top h1 { font-size: 1.15rem; line-height: 1.15; }   /* ...the name may take two short ones */
+  .head-nav { gap: 4px 10px; flex-wrap: nowrap; flex: none; }
+  .suite-bar .head-nav > a, .head-nav .head-menu > summary, .head-nav .suite-apps > summary { font-size: .85rem; }
+}
+
+/* --- Your county (v0.2.0; Scott's A of notes/yp-front-A-desk-2026-10-22.png) ---------------------------------------- */
+main { flex: 1 0 auto; width: 100%; max-width: 1080px; margin: 0 auto; padding: 18px 20px 40px; }
+.app-nav .crop-switch { margin-left: auto; align-self: center; display: inline-flex; border: 1px solid var(--suite-line);
+  border-radius: 8px; overflow: hidden; flex: none; }
+.crop-switch a { border: 0; padding: 5px 12px; font-size: .85rem; color: var(--suite-muted); }
+.crop-switch a[aria-current="true"] { background: var(--suite-deep-green); color: #fff; }
+.crop-switch a:hover { border: 0; background: var(--suite-bg); }
+.crop-switch a[aria-current="true"]:hover { background: var(--suite-deep-green); }
+
+.note { background: #f3ead8; border: 1px solid #e2d3ac; border-radius: 8px; padding: 10px 14px; margin: 0 0 14px; font-size: .92rem; }
+.pick { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin: 0 0 14px; }
+.pick h2 { margin: 0; font-size: 1.6rem; color: var(--suite-deep-green); }
+.pick .from { font-size: .86rem; color: var(--suite-muted); }
+.pick-form { display: none; flex-wrap: wrap; align-items: end; gap: 8px 12px; margin: 0 0 14px; }
+.pick-form.open { display: flex; }
+.pick-form label { display: flex; flex-direction: column; gap: 4px; font-size: .86rem; font-weight: 600; color: var(--suite-muted); }
+.pick-form select { font: inherit; padding: 8px 10px; border: 1px solid var(--suite-line); border-radius: var(--suite-button-radius);
+  background: var(--suite-surface); color: var(--suite-ink); min-width: 0; }
+.link-btn { font: inherit; font-size: .9rem; background: none; border: 0; padding: 0; color: var(--suite-link, #2a78d6);
+  text-decoration: underline; cursor: pointer; }
+
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile, .panel { background: var(--suite-surface, #fff); border: 1px solid var(--suite-line); border-radius: 10px; }
+.tile { padding: 12px 14px; }
+.tile .k { margin: 0; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--suite-muted); }
+.tile .v { margin: 4px 0 2px; font-size: 1.6rem; font-weight: 700; color: var(--suite-ink); }
+.tile .v small { font-size: .85rem; font-weight: 600; color: var(--suite-muted); }
+.tile p { margin: 2px 0 0; font-size: .88rem; }
+.panel { padding: 14px 16px; margin: 0 0 14px; }
+.panel h3 { margin: 0 0 2px; font-size: 1.1rem; color: var(--suite-deep-green); }
+.panel .sub { margin: 0 0 10px; font-size: .88rem; color: var(--suite-muted); }
+.panel .src { margin: 8px 0 0; font-size: .8rem; color: var(--suite-muted); }
+
+.cmp { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.cmp h4 { margin: 0 0 6px; font-size: .92rem; }
+.bar { display: grid; grid-template-columns: 64px minmax(0, 1fr) 58px; align-items: center; gap: 6px; font-size: .86rem; margin: 3px 0; }
+.bar i { display: block; height: 12px; border-radius: 0 3px 3px 0; background: #c9c6be; }
+.bar.now { font-weight: 700; }
+.bar.now i { background: #2a78d6; }
+.bar span:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.say { margin: 10px 0 0; font-size: .94rem; }
+
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: inherit; }
+.key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 6px 0 0; font-size: .82rem; color: var(--suite-muted); }
+.key i { display: inline-block; vertical-align: middle; margin-right: 5px; }
+.key .k-dot { width: 9px; height: 9px; border-radius: 50%; background: #1d1c1a; }
+.key .k-miss { width: 9px; height: 9px; border-radius: 50%; background: #b4441c; }
+.key .k-bar { width: 7px; height: 14px; border-radius: 4px; background: rgba(42, 120, 214, .35); }
+.key .k-dry { width: 18px; height: 0; border-top: 2px dashed #8a8f98; }
+.numbers { margin: 10px 0 0; font-size: .88rem; }
+.numbers summary { cursor: pointer; color: var(--suite-link, #2a78d6); }
+.numbers table { border-collapse: collapse; margin: 8px 0 0; width: 100%; max-width: 560px; font-variant-numeric: tabular-nums; }
+.numbers th, .numbers td { text-align: right; padding: 3px 8px; border-bottom: 1px solid var(--suite-line); }
+.numbers th:first-child, .numbers td:first-child { text-align: left; }
+.table-wrap { overflow-x: auto; }
+.more { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 4px 0 0; font-size: .95rem; }
+.muted { color: var(--suite-muted); }
+.loading { color: var(--suite-muted); padding: 30px 0; }
+
+.crop-switch-phone { display: none; }
+.pick .crop-switch { border: 1px solid var(--suite-line); border-radius: 8px; overflow: hidden; }
+.pick .crop-switch a { display: inline-block; text-decoration: none; padding: 5px 12px; font-size: .85rem; font-weight: 600; color: var(--suite-muted); }
+.pick .crop-switch a[aria-current="true"] { background: var(--suite-deep-green); color: #fff; }
+@media (max-width: 640px) {
+  .app-nav .crop-switch { display: none; }
+  .crop-switch-phone { display: inline-flex; }
+}
+@media (max-width: 760px) {
+  .tiles, .cmp { grid-template-columns: 1fr; }
+  .pick h2 { font-size: 1.3rem; }
+}
+
+/* --- Help (the suite's four-part layout, as in My Farm, the Grazing Planner and Herd Planner) --------------------- */
+.help-view h1 { margin: 0 0 6px; font-size: 1.5rem; color: var(--suite-deep-green); }
+.help-view .lede { margin: 0 0 16px; max-width: 72ch; }
+.help-split { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; align-items: start; }
+.help-toc { position: sticky; top: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: .92rem; }
+.help-toc b { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--suite-muted); }
+.help-part { background: var(--suite-surface, #fff); border: 1px solid var(--suite-line); border-radius: 10px; padding: 14px 18px; margin: 0 0 14px; }
+.help-part h2 { margin: 0 0 8px; font-size: 1.15rem; color: var(--suite-deep-green); }
+.help-part details { border-top: 1px solid var(--suite-line); padding: 8px 0; }
+.help-part summary { cursor: pointer; font-weight: 600; }
+.help-steps li, .help-list li { margin: 4px 0; }
+@media (max-width: 760px) {
+  .help-split { grid-template-columns: 1fr; }
+  .help-toc { position: static; flex-direction: row; flex-wrap: wrap; gap: 6px 14px; }
+}
+.suite-bar h1 a.home-link { color: inherit; text-decoration: none; }
