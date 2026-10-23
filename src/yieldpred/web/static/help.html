@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Help · Yield Predictor</title>
+  <meta name="description" content="Your county's corn and soybean yields since 2000, the model's 80% ranges, and this season's weather against 2012 and 2022.">
+  <meta name="theme-color" content="#243b2f">
+  <link rel="icon" href="icons/favicon.png" type="image/png">
+  <link rel="stylesheet" href="suite.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top suite-bar has-corner" data-app="corn-yield-predictor">
+  <div class="suite-crumbs"><a class="suite-company" data-suite-company href="https://cornerpostlogic.com/">Cornerpost Logic</a><span class="suite-crumb-sep" aria-hidden="true">›</span><h1><a class="home-link" href="./"><img src="icons/logo.svg" alt="" class="logo">Yield Predictor</a></h1></div>
+  <span class="spacer"></span>
+  <a href="/auth/sign-in" id="signin-bar" class="signin signin-bar hidden">Sign In</a>
+  <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="head-nav"><span aria-hidden="true">&#9776;</span> Menu</button>
+  <!-- The same green bar as every app (My Farm, Farm Apps, Barn Prices, Learn, then your name); this app's own pages
+       are the white row below. -->
+  <nav class="head-nav" id="head-nav" aria-label="Cornerpost Logic">
+    <a href="https://apps.cornerpostlogic.com/" class="to-my-farm" data-note="Your farm, every app">My Farm</a>
+    <details class="suite-apps" data-suite-apps="corn-yield-predictor"></details>
+    <a href="https://cornerpostlogic.com/barns.html" class="bar-barns">Barn Prices</a>
+    <details class="head-menu">
+      <summary>Learn</summary>
+      <div class="head-menu-panel">
+        <a href="help.html" data-note="How to use it" id="help-link" aria-current="page">Help</a>
+        <a href="https://cornerpostlogic.com/corn-yield-predictor.html" data-note="What it does">About This App</a>
+        <a href="https://cornerpostlogic.com/plans.html" data-note="Free and paid">Plans</a>
+        <a href="#" data-streamlit="How_It_Works" data-note="How the model works">How It Works</a>
+        <a href="https://cornerpostlogic.com/methods.html#corn-yield-predictor" data-note="How we check it">How We Test</a>
+        <a href="https://cornerpostlogic.com/barns.html" class="learn-barns" data-note="Every barn">Barn Prices</a>
+        <a href="#" class="suite-ask-hidden" data-suite-ask="corn-yield-predictor" role="button">Ask a Question</a>
+      </div>
+    </details>
+    <i class="bar-sep" aria-hidden="true"></i>
+    <details class="head-menu hidden" id="me-menu">
+      <summary><span id="me-name">Account</span></summary>
+      <div class="head-menu-panel">
+        <a href="https://apps.cornerpostlogic.com/#account" id="account-link">My Farm Account</a>
+        <button type="button" id="signout">Sign Out</button>
+      </div>
+    </details>
+    <a href="/auth/sign-in" id="signin-link" class="signin hidden">Sign In</a>
+  </nav>
+</header>
+<nav class="app-nav" id="app-nav" aria-label="Yield Predictor">
+  <a href="./" id="county-tab">Your County</a>
+  <a href="#" data-streamlit="Maps" id="maps-tab">Maps</a>
+  <a href="#" data-streamlit="Model_and_Validation" id="research-tab">Research</a>
+</nav>
+
+<main id="main" class="help-view">
+  <!-- v0.2.0: the suite's Help layout (My Farm, the Grazing Planner, Herd Planner, the Equipment Planner): four parts,
+       contents down the left (at the top on a phone). Every name in italics is a page, heading or button in the app
+       (tests/test_web_help.py checks they exist). -->
+  <h1>How to Use the Yield Predictor</h1>
+  <p class="lede">The Yield Predictor shows your county's corn and soybean yields since 2000, how close a model built from
+    weather, soils and irrigation would have come each year, and how this season's weather compares with a normal one and
+    with the drought years 2012 and 2022. It covers every Nebraska and Iowa county USDA reports. It's free, with no
+    sign-in needed.</p>
+  <div class="help-split">
+    <nav class="help-toc" aria-label="On this page"><b>On this page</b>
+      <a href="#help-start">Getting Started</a><a href="#help-how">How Do I&hellip;</a>
+      <a href="#help-numbers">What the Numbers Mean</a><a href="#help-wrong">When Something Looks Wrong</a></nav>
+    <div class="help-body">
+      <section class="help-part" id="help-start"><h2>Getting Started</h2><ol class="help-steps">
+        <li><b>Pick your county.</b> On <i>Your County</i>, press <i>Change County</i>, choose the state and county, then
+          <i>Show This County</i>. This browser remembers it for next time.</li>
+        <li><b>Or sign in.</b> <i>Sign In</i> uses your My Farm account; the page then opens on your farm's county.</li>
+        <li><b>Choose the crop.</b> <i>Corn</i> or <i>Soybeans</i>, at the right of the white row.</li>
+        <li><b>Read the page top down.</b> Last harvest and the model's range for it, a trend year, how often the ranges
+          held; then <i>This Season So Far</i>; then every year since 2000.</li></ol></section>
+      <section class="help-part" id="help-how"><h2>How Do I&hellip;</h2>
+        <details open><summary>See another county?</summary><p><i>Change County</i>, pick it, <i>Show This County</i>. The
+          address in your browser now names that county, so you can bookmark it or send it to someone.</p></details>
+        <details><summary>See the exact numbers behind the chart?</summary><p>Under the chart, <i>Show the Numbers</i>
+          lists every year: the yield, the model's range and whether it landed inside. Holding the pointer on a dot shows
+          the same.</p></details>
+        <details><summary>Compare counties on a map?</summary><p><i>Maps</i> opens every county, every year. It still
+          opens in the first version of the Yield Predictor while it moves here.</p></details>
+        <details><summary>Find out how the model works and how it was tested?</summary><p><i>Research</i>, or
+          <i>How It Works</i> and <i>How We Test</i> under <i>Learn</i>.</p></details>
+        <details><summary>Sign out?</summary><p>Your name in the green bar, then <i>Sign Out</i>. It signs you out of My
+          Farm too, and so of every app.</p></details>
+      </section>
+      <section class="help-part" id="help-numbers"><h2>What the Numbers Mean</h2><ul class="help-list">
+        <li><b>Harvest (bu/acre):</b> USDA's county yield for all of that crop, irrigated and dryland together.</li>
+        <li><b>The model's 80% range:</b> where the model said the county's yield would land, from that year's weather,
+          the county's soils and how much is irrigated. The model that made it never saw this county's part of the
+          state (its USDA crop district), so it's a fair test. An honest 80% range misses about 1 year in 5: missing none would mean the range is wider than it
+          needs to be.</li>
+        <li><b>A trend year:</b> a straight line through the county's own yields, carried one year on. It is not a
+          forecast of this season.</li>
+        <li><b>This Season So Far:</b> rain since May 1, days over 90&deg;F and July rain, from the county's NASA POWER
+          weather. Normal is the 2000 to 2025 average over the same days; 2012 and 2022 are cut to the same days too.</li>
+        <li><b>Dryland:</b> USDA's non-irrigated yields for the county, which it stopped publishing by county after 2018.</li></ul>
+        <p class="small">Past yields and a model's ranges, for planning; not a forecast or financial advice.
+          <a href="https://cornerpostlogic.com/methods.html#corn-yield-predictor">How We Test</a> shows how the model was
+          checked.</p></section>
+      <section class="help-part" id="help-wrong"><h2>When Something Looks Wrong</h2><ul class="help-list">
+        <li><b>The page is slow to open:</b> online, it naps when nobody's using it. Wait a minute and reload.</li>
+        <li><b>A year is missing:</b> USDA didn't publish that county's yield that year (it holds back a county's number
+          when too few farms report). The chart says which years.</li>
+        <li><b>No ranges for my county:</b> the model needs every input for a county-year, and some are missing in a few
+          counties where little of the crop is grown (their crop rotation, for one). Their yields are still shown.</li>
+        <li><b>No season card:</b> before May 1 there's no season yet, and Iowa's season weather comes next.</li>
+        <li><b>The newest days are missing:</b> the weather runs a few days behind; the card says the last day it covers.</li></ul></section>
+      <p class="help-ask"><a href="#" class="btn secondary suite-ask-hidden" data-suite-ask="corn-yield-predictor" role="button">Ask a Question</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><strong>Yield Predictor</strong><p>Corn and soybean yields for every Nebraska and Iowa county since
+      2000, how well the model would have called each one, and this season's weather. Free, no sign-in needed.</p></div>
+    <nav class="footer-col" aria-label="Where the numbers come from">
+      <h2>Data</h2>
+      <a href="https://quickstats.nass.usda.gov/">USDA NASS Quick Stats (county yields)</a>
+      <a href="https://power.larc.nasa.gov/">NASA POWER (weather)</a>
+      <a href="https://websoilsurvey.nrcs.usda.gov/">USDA NRCS soils</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <p>Nothing you choose here is kept on our server: your county is remembered in this browser only. Signed in, the
+      county comes from your farm in My Farm. These are past yields and a model's ranges, not a forecast or advice.</p>
+    <p id="footer-version">&copy; Cornerpost Logic</p>
+  </div>
+</footer>
+
+<script src="suite.js" defer></script>
+<script src="header.js" defer></script>
+</body>
+</html>

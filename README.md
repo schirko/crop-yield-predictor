@@ -298,12 +298,21 @@ src/yieldpred/        Core logic
   yearcharts.py       Charts by year with plain year labels (2005, not 2,005) in the Sky & Soil colours
   disclaimer.py       Legal notices, one source for the app and this README
   appdata.py          Streamlit-free data access for the app
+  season.py           This season so far (rain, days over 90°F, July rain) beside normal, 2012 and 2022
+  web/                The web app (v0.2.0): FastAPI, like the suite's other apps
+    app.py            Routes: the front page, /api/county, /api/counties, Sign In With My Farm, /health
+    county.py         What the front page shows for one county, from appdata (same files as Streamlit)
+    sso.py            Sign In With My Farm, with no database: a locked cookie holds first name and county
+    config.py         Its settings (environment variables)
+    static/           index.html (Your County), help.html, app.js, header.js, style.css, suite files
 scripts/              Runnable steps, all --state aware
   fetch_*.py          Downloads (NASS, POWER, gridMET, soils, terrain, rotation)
   train_baseline.py   Models, validation, feature ladder, ablation, controls
   analyze_errors.py   Moran's I and error maps
   cross_state.py      Train on one state, predict another
   honest_ranges.py    Builds and checks the 80% ranges the app shows
+  fetch_season.py     This season's daily weather for every Nebraska county (NASA POWER)
+  season_so_far.py    Builds data/processed/season_ne.parquet, the web app's season file
   crop_transfer.py    Does the corn model help predict soybeans? (transfer learning)
   probe_weather_grid.py  Is one weather point per county good enough? (no downloads)
   check_network.py    Which of the five data sources can this machine reach?
@@ -357,8 +366,46 @@ The suite's home page (farm-account) shows each county's trend corn yield and it
 
 Run the tests with `pytest` — they use synthetic fixtures, so no network or API key is needed.
 
+## The Web App (v0.2.0)
+
+Migration step 1, beside the Streamlit app (Scott, 2026-10-22: "Let's go with step 1", then layout A of
+`notes/yp-front-A-desk-2026-10-22.png`): a farmer's front page in FastAPI, like the suite's other apps. Pick a county
+(or sign in and it opens on your farm's), and see:
+
+- the last harvest and the model's 80% range for it, a trend year (labeled: not a forecast), and how often the
+  ranges held in that county;
+- **This Season So Far**: rain since May 1, days over 90°F and July rain, beside a normal season (2000 to 2025) and the
+  drought years 2012 and 2022, all cut to the same days (Nebraska for now);
+- every year since 2000: the yield, the model's range, the misses in red, and dryland yields to 2018.
+
+Learn holds About This App, **Plans** (`cornerpostlogic.com/plans.html`, "Free and paid"; Scott chose A of farm-account `notes/apps-plans-link-2026-10-22.png`) and the
+rest of the suite's company links. `tests/test_web_pages.py`.
+
+It reads the same `data/processed/` files as the Streamlit app, through the same functions, and
+`tests/test_web_numbers.py` checks every county against them and runs the Streamlit County Explorer itself to compare.
+Maps and Research still open the Streamlit app until step 2 moves them.
+
+```bash
+uvicorn yieldpred.web.app:app --reload --port 8030      # then open http://127.0.0.1:8030/
+```
+
+Refresh this season's weather (a few minutes; NASA POWER runs a few days behind), then commit the one small file:
+
+```bash
+python scripts/fetch_season.py
+python scripts/season_so_far.py
+```
+
+Sign In With My Farm needs My Farm to know the app: on your computer, start farm-account with
+`FARM_ACCOUNT_YIELD_PREDICTOR_URL=http://127.0.0.1:8030`, and this app with
+`YIELD_PREDICTOR_MY_FARM_SIGN_IN=1` and `YIELD_PREDICTOR_FARM_ACCOUNT_URL=http://127.0.0.1:8020`. Online, Render reads
+`render.yaml` and `Dockerfile` (`requirements-web.txt`: no Streamlit, geopandas or scikit-learn in the image).
+
 ## Roadmap
 
+- [x] Web app, step 1: a farmer's front page in FastAPI, Sign In With My Farm (v0.2.0)
+- [ ] Web app, step 2: Maps and Research move from Streamlit; Iowa's season weather; a weekly season refresh
+- [ ] Web app, step 3: every link in the suite points at the web app; the Streamlit app says "We've moved"
 - [x] NASS county yields and coverage analysis
 - [x] Growing-season weather features
 - [x] Baseline models with spatial and temporal validation

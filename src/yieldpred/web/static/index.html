@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yield Predictor</title>
+  <meta name="description" content="Your county's corn and soybean yields since 2000, the model's 80% ranges, and this season's weather against 2012 and 2022.">
+  <meta name="theme-color" content="#243b2f">
+  <link rel="icon" href="icons/favicon.png" type="image/png">
+  <link rel="stylesheet" href="suite.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top suite-bar has-corner" data-app="corn-yield-predictor">
+  <div class="suite-crumbs"><a class="suite-company" data-suite-company href="https://cornerpostlogic.com/">Cornerpost Logic</a><span class="suite-crumb-sep" aria-hidden="true">›</span><h1><a class="home-link" href="./"><img src="icons/logo.svg" alt="" class="logo">Yield Predictor</a></h1></div>
+  <span class="spacer"></span>
+  <a href="/auth/sign-in" id="signin-bar" class="signin signin-bar hidden">Sign In</a>
+  <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="head-nav"><span aria-hidden="true">&#9776;</span> Menu</button>
+  <!-- The same green bar as every app (My Farm, Farm Apps, Barn Prices, Learn, then your name); this app's own pages
+       are the white row below. -->
+  <nav class="head-nav" id="head-nav" aria-label="Cornerpost Logic">
+    <a href="https://apps.cornerpostlogic.com/" class="to-my-farm" data-note="Your farm, every app">My Farm</a>
+    <details class="suite-apps" data-suite-apps="corn-yield-predictor"></details>
+    <a href="https://cornerpostlogic.com/barns.html" class="bar-barns">Barn Prices</a>
+    <details class="head-menu">
+      <summary>Learn</summary>
+      <div class="head-menu-panel">
+        <a href="help.html" data-note="How to use it" id="help-link">Help</a>
+        <a href="https://cornerpostlogic.com/corn-yield-predictor.html" data-note="What it does">About This App</a>
+        <a href="https://cornerpostlogic.com/plans.html" data-note="Free and paid">Plans</a>
+        <a href="#" data-streamlit="How_It_Works" data-note="How the model works">How It Works</a>
+        <a href="https://cornerpostlogic.com/methods.html#corn-yield-predictor" data-note="How we check it">How We Test</a>
+        <a href="https://cornerpostlogic.com/barns.html" class="learn-barns" data-note="Every barn">Barn Prices</a>
+        <a href="#" class="suite-ask-hidden" data-suite-ask="corn-yield-predictor" role="button">Ask a Question</a>
+      </div>
+    </details>
+    <i class="bar-sep" aria-hidden="true"></i>
+    <details class="head-menu hidden" id="me-menu">
+      <summary><span id="me-name">Account</span></summary>
+      <div class="head-menu-panel">
+        <a href="https://apps.cornerpostlogic.com/#account" id="account-link">My Farm Account</a>
+        <button type="button" id="signout">Sign Out</button>
+      </div>
+    </details>
+    <a href="/auth/sign-in" id="signin-link" class="signin hidden">Sign In</a>
+  </nav>
+</header>
+<nav class="app-nav" id="app-nav" aria-label="Yield Predictor">
+  <a href="./" aria-current="page" id="county-tab">Your County</a>
+  <a href="#" data-streamlit="Maps" id="maps-tab">Maps</a>
+  <a href="#" data-streamlit="Model_and_Validation" id="research-tab">Research</a>
+  <span class="crop-switch" role="group" aria-label="Crop">
+    <a href="?crop=corn" data-crop="corn" aria-current="true">Corn</a><a href="?crop=soybeans" data-crop="soybeans">Soybeans</a>
+  </span>
+</nav>
+
+<main id="main">
+  <p class="note hidden" id="why" role="status"></p>
+  <div class="pick">
+    <h2 id="county-name">Your County</h2>
+    <button type="button" class="link-btn" id="change">Change County</button>
+    <span class="from" id="county-from"></span>
+    <!-- On a phone the white row has no room for the switch, so it sits here instead (style.css) -->
+    <span class="crop-switch crop-switch-phone" role="group" aria-label="Crop">
+      <a href="?crop=corn" data-crop="corn" aria-current="true">Corn</a><a href="?crop=soybeans" data-crop="soybeans">Soybeans</a>
+    </span>
+  </div>
+  <form class="pick-form" id="pick-form">
+    <label>State <select id="state-select"><option value="ne">Nebraska</option><option value="ia">Iowa</option></select></label>
+    <label>County <select id="county-select"></select></label>
+    <button type="submit" class="btn">Show This County</button>
+  </form>
+
+  <div id="page" aria-live="polite"><p class="loading">Loading your county&hellip;</p></div>
+
+  <p class="more"><a href="#" data-streamlit="Maps">Maps: every county, every year &rsaquo;</a>
+    <a href="#" data-streamlit="Model_and_Validation">Research: how the model was built and tested &rsaquo;</a></p>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><strong>Yield Predictor</strong><p>Corn and soybean yields for every Nebraska and Iowa county since
+      2000, how well the model would have called each one, and this season's weather. Free, no sign-in needed.</p></div>
+    <nav class="footer-col" aria-label="Where the numbers come from">
+      <h2>Data</h2>
+      <a href="https://quickstats.nass.usda.gov/">USDA NASS Quick Stats (county yields)</a>
+      <a href="https://power.larc.nasa.gov/">NASA POWER (weather)</a>
+      <a href="https://websoilsurvey.nrcs.usda.gov/">USDA NRCS soils</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <p>Nothing you choose here is kept on our server: your county is remembered in this browser only. Signed in, the
+      county comes from your farm in My Farm. These are past yields and a model's ranges, not a forecast or advice.</p>
+    <p id="footer-version">&copy; Cornerpost Logic</p>
+  </div>
+</footer>
+
+<script src="suite.js" defer></script>
+<script src="header.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
