@@ -18,3 +18,12 @@ def test_on_streamlit_cloud_the_app_only_says_it_moved(monkeypatch):
     assert buttons == [("Open the Yield Predictor", "https://yield.cornerpostlogic.com/"),
                        ("Cornerpost Logic Home", "https://cornerpostlogic.com/")]
     assert not app.get("plotly_chart") and not app.get("metric")        # none of the research app ran
+
+
+def test_every_research_page_says_where_farmers_go():
+    """v0.2.3: without the secret, the Streamlit app is Scott's portfolio research app
+    (cornerpostlogic-crop-yield-predictor.streamlit.app); every page opens with a line to the farmers' app."""
+    source = (MAIN.parents[1] / "src" / "yieldpred" / "brand.py").read_text(encoding="utf-8")
+    assert '"[yield.cornerpostlogic.com](https://yield.cornerpostlogic.com/).")' in source
+    setup = source[source.index("def page_setup("):source.index("def page_heading(")]
+    assert "st.info(RESEARCH_NOTE)" in setup

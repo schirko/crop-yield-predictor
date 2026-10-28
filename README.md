@@ -405,11 +405,14 @@ v0.2.1: the web app is online at **https://yield.cornerpostlogic.com** (Render, 
 Streamlit for farmers. `render.yaml` sets its address and My Farm's (v0.2.2: `apps.cornerpostlogic.com`, My Farm's own
 address). The steps are in the company project's `claude/domain-move-plan.md`.
 
-v0.2.2 (Scott chose B: "I don't need anything on streamlit"): every link in the suite opens the web app; Maps, Research
-and How It Works came off its pages until they're rebuilt here (How We Test on the company site covers the method). On
-Streamlit Community Cloud the secret `YIELD_PREDICTOR_MOVED = "1"` turns `app/streamlit_app.py` into one page, "The
-Yield Predictor Has Moved", with a button to the web app (and one to cornerpostlogic.com) (`tests/test_moved.py`). On your PC,
-`streamlit run app/streamlit_app.py` is still the whole research app.
+v0.2.2: every link in the suite opens the web app; Maps, Research and How It Works came off its pages until they're
+rebuilt here (How We Test on the company site covers the method).
+
+v0.2.3: the Streamlit app is the **research behind the Yield Predictor**, a data science portfolio piece at
+https://cornerpostlogic-crop-yield-predictor.streamlit.app (Scott, 2026-10-28). Every page opens with a line sending
+farmers to yield.cornerpostlogic.com; nothing in the suite links to Streamlit. If it ever should only point on, the
+Streamlit secret `YIELD_PREDICTOR_MOVED = "1"` turns it into one page, "The Yield Predictor Has Moved"
+(`tests/test_moved.py`); it isn't set.
 
 ## Roadmap
 

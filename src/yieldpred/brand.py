@@ -504,6 +504,13 @@ def state_fips(state: str) -> str:
     return STATES[state][1]
 
 
+# v0.2.3 (Scott, 2026-10-28): the Streamlit app is now his portfolio piece, the research behind the farmers' app at
+# https://cornerpostlogic-crop-yield-predictor.streamlit.app ("I will at some point have 3-4 actual data science
+# projects on streamlit that employers can see and use"). Every page says where farmers go.
+RESEARCH_NOTE = ("This is the research behind Cornerpost Logic's Yield Predictor. Farmers use the app at "
+                 "[yield.cornerpostlogic.com](https://yield.cornerpostlogic.com/).")
+
+
 def page_setup(page_title: str, *, layout: str = "wide") -> str:
     """The first Streamlit call on every page: config, logo, chrome, menu.
 
@@ -526,6 +533,7 @@ def page_setup(page_title: str, *, layout: str = "wide") -> str:
     state, crop = current_state(), current_crop()
     header_bar(state, crop, current=page_title)
     nav_bar(current=page_title, state=state, crop=crop)
+    st.info(RESEARCH_NOTE)
     return state
 
 
