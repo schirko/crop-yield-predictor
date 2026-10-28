@@ -401,6 +401,10 @@ Sign In With My Farm needs My Farm to know the app: on your computer, start farm
 `YIELD_PREDICTOR_MY_FARM_SIGN_IN=1` and `YIELD_PREDICTOR_FARM_ACCOUNT_URL=http://127.0.0.1:8020`. Online, Render reads
 `render.yaml` and `Dockerfile` (`requirements-web.txt`: no Streamlit, geopandas or scikit-learn in the image).
 
+v0.2.1: the web app goes online at **https://yield.cornerpostlogic.com** (Render, free plan; Scott, 2026-10-28), off
+Streamlit for farmers. `render.yaml` sets its address and My Farm's (`farm-account.onrender.com` until My Farm moves to
+myfarm.cornerpostlogic.com). The steps are in the company project's `claude/domain-move-plan.md`.
+
 ## Roadmap
 
 - [x] Web app, step 1: a farmer's front page in FastAPI, Sign In With My Farm (v0.2.0)

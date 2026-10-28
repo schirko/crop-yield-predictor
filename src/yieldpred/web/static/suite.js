@@ -231,7 +231,7 @@
     }
     const buttons = el("div", { class: "suite-ask-actions" });
     if (reply.offer_handoff && ask.conversation && reply.limit !== "off") {
-      const yes = el("button", { type: "button", class: "suite-ask-yes" }, "Send to Scott");
+      const yes = el("button", { type: "button", class: "suite-ask-yes" }, "Send to Admin");
       const no = el("button", { type: "button", class: "suite-ask-no" }, "No Thanks");
       yes.addEventListener("click", () => { buttons.remove(); handoffForm(b); });
       no.addEventListener("click", () => buttons.remove());

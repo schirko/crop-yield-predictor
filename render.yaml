@@ -20,6 +20,12 @@ services:
         value: "1"             # secure cookies; refuses to start without the settings below
       - key: YIELD_PREDICTOR_MY_FARM_SIGN_IN
         value: "1"             # Sign In With My Farm (optional for visitors: it only brings their county)
+      # v0.2.1, the move to cornerpostlogic.com (claude/domain-move-plan.md): this app lives at its own address from the
+      # start, so My Farm only ever knows one. My Farm moves later; change the first line then.
+      - key: YIELD_PREDICTOR_FARM_ACCOUNT_URL
+        value: https://farm-account.onrender.com
+      - key: YIELD_PREDICTOR_PUBLIC_URL
+        value: https://yield.cornerpostlogic.com
       - key: YIELD_PREDICTOR_FARM_ACCOUNT_KEY
         sync: false            # Render asks for it: the same long random string as corn-yield-predictor:<key> in
                                # farm-account's FARM_ACCOUNT_APP_KEYS

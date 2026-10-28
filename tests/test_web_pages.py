@@ -102,6 +102,15 @@ def test_the_blueprint_holds_no_secrets():
     assert not re.search(r"value:\s*\"?[A-Za-z0-9_\-]{24,}", blueprint)
 
 
+def test_the_blueprint_names_both_addresses():
+    """v0.2.1: the Yield Predictor moves to yield.cornerpostlogic.com (Scott, 2026-10-28: "Let's go with render") and
+    signs in at My Farm's real address; the old default, apps.cornerpostlogic.com, was never a server."""
+    blueprint = (ROOT / "render.yaml").read_text(encoding="utf-8")
+    assert "key: YIELD_PREDICTOR_PUBLIC_URL\n        value: https://yield.cornerpostlogic.com" in blueprint
+    assert "key: YIELD_PREDICTOR_FARM_ACCOUNT_URL\n        value: https://farm-account.onrender.com" in blueprint
+    assert "apps.cornerpostlogic.com" not in (ROOT / "src" / "yieldpred" / "web" / "config.py").read_text(encoding="utf-8")
+
+
 def test_learn_has_plans_after_about_this_app():
     """Plans in every app's Learn menu (Scott chose A of farm-account/notes/apps-plans-link-2026-10-22.png)."""
     plans = '<a href="https://cornerpostlogic.com/plans.html" data-note="Free and paid">Plans</a>'

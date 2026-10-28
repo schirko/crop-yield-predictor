@@ -3,7 +3,8 @@
     YIELD_PREDICTOR_HOSTED=1               on a server: secure cookies, and the checks in problems()
     YIELD_PREDICTOR_MY_FARM_SIGN_IN=1      show Sign In With My Farm (on by default online). The app is open to
                                            everyone either way; signing in only brings your county from My Farm.
-    YIELD_PREDICTOR_FARM_ACCOUNT_URL=..    My Farm's address (default https://apps.cornerpostlogic.com)
+    YIELD_PREDICTOR_FARM_ACCOUNT_URL=..    My Farm's address (default https://farm-account.onrender.com;
+                                           v0.2.1: the old default was never a server)
     YIELD_PREDICTOR_FARM_ACCOUNT_KEY=..    this app's private key at My Farm: the same long random string as
                                            corn-yield-predictor:<key> in farm-account's FARM_ACCOUNT_APP_KEYS.
                                            It also locks this app's cookies, so it must be long and random.
@@ -33,7 +34,7 @@ def _flag(name: str, default: bool) -> bool:
 class Settings:
     hosted: bool = False
     my_farm_sign_in: bool = False
-    farm_account_url: str = "https://apps.cornerpostlogic.com"
+    farm_account_url: str = "https://farm-account.onrender.com"
     farm_account_key: str | None = None
     public_url: str | None = None
     streamlit_url: str = STREAMLIT_URL
