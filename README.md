@@ -383,7 +383,7 @@ rest of the suite's company links. `tests/test_web_pages.py`.
 
 It reads the same `data/processed/` files as the Streamlit app, through the same functions, and
 `tests/test_web_numbers.py` checks every county against them and runs the Streamlit County Explorer itself to compare.
-Maps and Research still open the Streamlit app until step 2 moves them.
+Maps and Research come back when step 2 rebuilds them here (v0.2.2 took the Streamlit links off).
 
 ```bash
 uvicorn yieldpred.web.app:app --reload --port 8030      # then open http://127.0.0.1:8030/
@@ -401,15 +401,21 @@ Sign In With My Farm needs My Farm to know the app: on your computer, start farm
 `YIELD_PREDICTOR_MY_FARM_SIGN_IN=1` and `YIELD_PREDICTOR_FARM_ACCOUNT_URL=http://127.0.0.1:8020`. Online, Render reads
 `render.yaml` and `Dockerfile` (`requirements-web.txt`: no Streamlit, geopandas or scikit-learn in the image).
 
-v0.2.1: the web app goes online at **https://yield.cornerpostlogic.com** (Render, free plan; Scott, 2026-10-28), off
-Streamlit for farmers. `render.yaml` sets its address and My Farm's (`farm-account.onrender.com` until My Farm moves to
-myfarm.cornerpostlogic.com). The steps are in the company project's `claude/domain-move-plan.md`.
+v0.2.1: the web app is online at **https://yield.cornerpostlogic.com** (Render, free plan; Scott, 2026-10-28), off
+Streamlit for farmers. `render.yaml` sets its address and My Farm's (v0.2.2: `apps.cornerpostlogic.com`, My Farm's own
+address). The steps are in the company project's `claude/domain-move-plan.md`.
+
+v0.2.2 (Scott chose B: "I don't need anything on streamlit"): every link in the suite opens the web app; Maps, Research
+and How It Works came off its pages until they're rebuilt here (How We Test on the company site covers the method). On
+Streamlit Community Cloud the secret `YIELD_PREDICTOR_MOVED = "1"` turns `app/streamlit_app.py` into one page, "The
+Yield Predictor Has Moved", with a button to the web app (and one to cornerpostlogic.com) (`tests/test_moved.py`). On your PC,
+`streamlit run app/streamlit_app.py` is still the whole research app.
 
 ## Roadmap
 
 - [x] Web app, step 1: a farmer's front page in FastAPI, Sign In With My Farm (v0.2.0)
-- [ ] Web app, step 2: Maps and Research move from Streamlit; Iowa's season weather; a weekly season refresh
-- [ ] Web app, step 3: every link in the suite points at the web app; the Streamlit app says "We've moved"
+- [ ] Web app, step 2: Maps and Research rebuilt in the web app; Iowa's season weather; a weekly season refresh
+- [x] Web app, step 3: every link in the suite points at the web app; the Streamlit app says "We've moved" (v0.2.2)
 - [x] NASS county yields and coverage analysis
 - [x] Growing-season weather features
 - [x] Baseline models with spatial and temporal validation

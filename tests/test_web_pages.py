@@ -23,7 +23,7 @@ def test_every_name_in_help_is_on_a_page():
     help_ = text("help.html")
     body = help_[help_.index('<main'):help_.index('</main>')]
     names = set(re.findall(r"<i>([^<]+)</i>", body))
-    assert len(names) >= 12
+    assert len(names) >= 10      # v0.2.2: Maps, Research and How It Works left with the Streamlit links
     shown = text("index.html") + text("app.js") + help_[:help_.index('<main')]
     missing = [n for n in names if n not in shown]
     assert not missing, f"Help names things the app doesn't show: {missing}"
@@ -103,12 +103,12 @@ def test_the_blueprint_holds_no_secrets():
 
 
 def test_the_blueprint_names_both_addresses():
-    """v0.2.1: the Yield Predictor moves to yield.cornerpostlogic.com (Scott, 2026-10-28: "Let's go with render") and
-    signs in at My Farm's real address; the old default, apps.cornerpostlogic.com, was never a server."""
+    """v0.2.1: the Yield Predictor moves to yield.cornerpostlogic.com (Scott, 2026-10-28: "Let's go with render").
+    v0.2.2: it signs in at My Farm's own address, apps.cornerpostlogic.com (v0.2.1 wrongly sent it to the onrender one)."""
     blueprint = (ROOT / "render.yaml").read_text(encoding="utf-8")
     assert "key: YIELD_PREDICTOR_PUBLIC_URL\n        value: https://yield.cornerpostlogic.com" in blueprint
-    assert "key: YIELD_PREDICTOR_FARM_ACCOUNT_URL\n        value: https://farm-account.onrender.com" in blueprint
-    assert "apps.cornerpostlogic.com" not in (ROOT / "src" / "yieldpred" / "web" / "config.py").read_text(encoding="utf-8")
+    assert "key: YIELD_PREDICTOR_FARM_ACCOUNT_URL\n        value: https://apps.cornerpostlogic.com" in blueprint
+    assert 'farm_account_url: str = "https://apps.cornerpostlogic.com"' in (ROOT / "src" / "yieldpred" / "web" / "config.py").read_text(encoding="utf-8")
 
 
 def test_learn_has_plans_after_about_this_app():
@@ -116,4 +116,14 @@ def test_learn_has_plans_after_about_this_app():
     plans = '<a href="https://cornerpostlogic.com/plans.html" data-note="Free and paid">Plans</a>'
     for name in ("index.html", "help.html"):
         page = text(name)
-        assert page.index(">About This App</a>") < page.index(plans) < page.index(">How It Works</a>"), name
+        assert page.index(">About This App</a>") < page.index(plans) < page.index(">How We Test</a>"), name
+
+
+def test_nothing_sends_anyone_to_streamlit():
+    """v0.2.2 (Scott chose B, 2026-10-28): the Streamlit app only says it moved, so Maps, Research and How It Works
+    come off these pages until they're rebuilt here. How the model was built is under Learn, How We Test."""
+    for name in ("index.html", "help.html"):
+        page = text(name)
+        assert "data-streamlit" not in page and ">Maps<" not in page and ">Research<" not in page, name
+        assert ">How It Works</a>" not in page, name
+    assert "is on Research" not in text("app.js")

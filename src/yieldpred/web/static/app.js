@@ -191,7 +191,7 @@
       el("span", {}, el("i", { class: "k-miss" }), "outside it"), el("span", {}, el("i", { class: "k-bar" }), "the model's 80% range"));
     if (p.dryland.length > 1) key.append(el("span", {}, el("i", { class: "k-dry" }), `dryland ${p.crop_name.toLowerCase()} (USDA stopped after ${p.dryland[p.dryland.length - 1].year})`));
     box.append(key, numbers(p));
-    box.append(el("p", { class: "src", text: "USDA NASS county yields. How the model was built and tested is on Research." }));
+    box.append(el("p", { class: "src", text: "USDA NASS county yields. How the model was built and tested: Learn, How We Test." }));
     return box;
   }
   function drawChart() {

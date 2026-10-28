@@ -16,7 +16,25 @@ if str(_SRC) not in sys.path:
     sys.path.insert(0, str(_SRC))
 
 
+import os
+
 import streamlit as st
+
+# v0.2.2, the Yield Predictor moved to https://yield.cornerpostlogic.com (Scott, 2026-10-28: "I don't need anything on
+# streamlit ... then "I'm fine with it being nothing more than a redirect to the live site on render"). On Streamlit
+# Community Cloud the secret YIELD_PREDICTOR_MOVED = "1" (the app's Settings > Secrets; Streamlit hands top-level secrets
+# to the app as environment variables) makes this one page that sends visitors on. st.navigation lists only that page,
+# so the research pages under pages/ aren't served there. On your PC, without it, this is the whole research app.
+if os.environ.get("YIELD_PREDICTOR_MOVED") == "1":
+    def _moved() -> None:
+        st.title("The Yield Predictor Has Moved")
+        st.write("It's now one of Cornerpost Logic's farm apps: every county in Nebraska and Iowa, corn and soybeans, "
+                 "with the model's ranges and how often they held.")
+        st.link_button("Open the Yield Predictor", "https://yield.cornerpostlogic.com/", type="primary")
+        st.link_button("Cornerpost Logic Home", "https://cornerpostlogic.com/")
+
+    st.navigation([st.Page(_moved, title="The Yield Predictor Has Moved", default=True)], position="hidden").run()
+    st.stop()
 
 from yieldpred.appdata import (irrigation_gap, load_morans_pooled, load_scores,
                                load_yields, missing_data_message,

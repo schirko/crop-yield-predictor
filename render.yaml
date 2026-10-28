@@ -21,9 +21,9 @@ services:
       - key: YIELD_PREDICTOR_MY_FARM_SIGN_IN
         value: "1"             # Sign In With My Farm (optional for visitors: it only brings their county)
       # v0.2.1, the move to cornerpostlogic.com (claude/domain-move-plan.md): this app lives at its own address from the
-      # start, so My Farm only ever knows one. My Farm moves later; change the first line then.
+      # start, so My Farm only ever knows one. v0.2.2: My Farm's own address since 2026-10-12, apps.cornerpostlogic.com.
       - key: YIELD_PREDICTOR_FARM_ACCOUNT_URL
-        value: https://farm-account.onrender.com
+        value: https://apps.cornerpostlogic.com
       - key: YIELD_PREDICTOR_PUBLIC_URL
         value: https://yield.cornerpostlogic.com
       - key: YIELD_PREDICTOR_FARM_ACCOUNT_KEY
