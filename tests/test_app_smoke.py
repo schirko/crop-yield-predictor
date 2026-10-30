@@ -624,7 +624,7 @@ def test_pages_with_a_state_switch_say_more_states_are_coming():
     for page in brand.STATE_AWARE:
         html = _menu_html(page)
         assert line in html
-        assert f'<a href="https://herd-planner.onrender.com/#waitlist" {brand.OFF_APP}>tell us yours</a>' in html
+        assert f'<a href="https://herd.cornerpostlogic.com/#waitlist" {brand.OFF_APP}>tell us yours</a>' in html
     others = [label for _p, label, _i, _u in brand.NAV if label not in brand.STATE_AWARE]
     for page in others:
         assert line not in _menu_html(page)            # a page that isn't about one state doesn't say it

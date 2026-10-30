@@ -11,7 +11,7 @@
   "apps": [
     {"id": "herd-planner", "name": "Herd Planner",
      "what": "Keep-or-sell decisions for cow-calf ranches",
-     "url": "https://herd-planner.onrender.com/"},
+     "url": "https://herd.cornerpostlogic.com/"},
     {"id": "corn-yield-predictor", "name": "Yield Predictor",
      "what": "County crop yields from weather, soils and irrigation",
      "url": "https://yield.cornerpostlogic.com/"},
