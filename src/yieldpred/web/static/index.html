@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="suite.css">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="front">
 <header class="top suite-bar has-corner" data-app="corn-yield-predictor">
   <div class="suite-crumbs"><a class="suite-company" data-suite-company href="https://cornerpostlogic.com/">Cornerpost Logic</a><span class="suite-crumb-sep" aria-hidden="true">›</span><h1><a class="home-link" href="./"><img src="icons/logo.svg" alt="" class="logo">Yield Predictor</a></h1></div>
   <span class="spacer"></span>
@@ -45,11 +45,72 @@
   </nav>
 </header>
 <nav class="app-nav" id="app-nav" aria-label="Yield Predictor">
-  <a href="./" aria-current="page" id="county-tab">Your County</a>
+  <a href="./?view=county" aria-current="page" id="county-tab">Your County</a>
   <span class="crop-switch" role="group" aria-label="Crop">
     <a href="?crop=corn" data-crop="corn" aria-current="true">Corn</a><a href="?crop=soybeans" data-crop="soybeans">Soybeans</a>
   </span>
 </nav>
+
+<!-- v0.2.4, the landing page (Scott, 2026-10-30: "We need a splash page like the other apps have for when a person is not
+     logged in", like Herd Planner's; "It looks great!" to notes/yp-splash-{desk,phone}-2026-10-30.png). Signed out, the
+     front page opens here; See Your County (free, no sign-in) and signed-in people go to the county page (app.js).
+     The subscription column is the plan in claude/subscription-benefits.md, marked Coming until it's built. -->
+<section class="landing" id="landing" aria-labelledby="land-head">
+  <div class="land-hero">
+    <div>
+      <div class="land-id"><img src="icons/logo.svg" alt="" width="56" height="56">
+        <div><p class="land-for">For corn and soybean farms</p><p class="land-name">Yield Predictor</p></div></div>
+      <h2 class="land-head" id="land-head">Know what your ground can grow, and how far to trust it</h2>
+      <p class="land-lede">Your county's corn and soybean yields since 2000, a tested range for every year, and how this
+        season's rain and heat compare with 2012 and 2022. Every Nebraska and Iowa county.</p>
+      <p class="land-go"><a class="btn" href="./?view=county" id="land-county">See Your County</a><a class="btn land-out hidden" href="/auth/sign-in" id="land-signin">Sign In</a></p>
+      <p class="land-note">Free, no sign-in needed. Signed in, your county comes from your farm in My Farm.</p>
+      <!-- Each number names its source. 78%: data/processed/ranges_coverage.parquet, "width scaled to irrigation", all
+           (scripts/honest_ranges.py); 26 and 190: the USDA NASS county yield files (Nebraska 91 + Iowa 99 counties with
+           corn, 2000 to 2025). tests/test_web_pages.py checks them against those files. -->
+      <div class="land-facts">
+        <div><b>78%</b><span>of the 80% ranges held, on 2,002 county-years the model never saw</span><small>Source: the honest-range backtest</small></div>
+        <div><b>26</b><span>harvests per county, 2000 to 2025</span><small>Source: USDA NASS county yields</small></div>
+        <div><b>190</b><span>Nebraska and Iowa counties with corn yields</span><small>Source: USDA NASS</small></div>
+      </div>
+    </div>
+    <aside class="land-panel">
+      <span class="land-pill">This Fall &middot; Free</span>
+      <h3>Harvest's in: how did your county's year stack up?</h3>
+      <p>2026's rain and heat beside a normal year and the drought years, and every yield since 2000 with the model's range.</p>
+      <figure class="land-show">
+        <div class="land-browser"><div class="land-bar" aria-hidden="true"><i></i><i></i><i></i><span>yield.cornerpostlogic.com</span></div>
+          <img src="shots/yield-computer.jpg" width="1100" height="825" loading="lazy" alt="The Yield Predictor on a computer and a phone, showing Hall County, Nebraska: the 2025 harvest of 210 bushels an acre inside the model's range, this season so far, and corn yields since 2000"></div>
+        <div class="land-phone"><img src="shots/yield-phone.jpg" width="360" height="779" loading="lazy" alt=""></div>
+      </figure>
+      <a class="land-more" href="https://cornerpostlogic.com/methods.html#corn-yield-predictor">How we test the ranges &rarr;</a>
+    </aside>
+  </div>
+
+  <div class="land-get">
+    <h3>What You Get with the Yield Predictor</h3>
+    <div class="land-cols">
+      <div class="land-col"><h4>Free</h4><small>Always, no sign-in needed</small>
+        <ul>
+          <li>Your county's corn and soybean yields since 2000, straight from USDA</li>
+          <li>The model's 80% range for every one of those years, and how often it held</li>
+          <li>This season so far: rain, hot days and July rain beside normal, 2012 and 2022</li>
+          <li>A trend year for next season, labeled as a trend, not a forecast</li>
+          <li>Irrigated against dryland, back to when USDA stopped splitting them</li>
+          <li>Every Nebraska and Iowa county, and your county remembered next time</li>
+        </ul></div>
+      <div class="land-col paid"><h4>With a Subscription <span class="land-tag">Coming</span></h4><small>Everything in Free, worked out for your own fields</small>
+        <ul>
+          <li>Each of your fields from My Farm, with its expected yield and range</li>
+          <li>A Crop Report for your lender: acres, bushels to expect, and the 1-in-10 low</li>
+          <li>A report for your landlord: the field's record, its trend, and how often it fell short</li>
+          <li>Your fields against the county, from the yield maps you upload</li>
+          <li>Your company logo on your reports</li>
+        </ul></div>
+    </div>
+    <p class="land-foot"><b>Your County stays free.</b> The field tools are being tested against real yield maps before they open; nothing is charged today.</p>
+  </div>
+</section>
 
 <main id="main">
   <p class="note hidden" id="why" role="status"></p>

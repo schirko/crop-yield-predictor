@@ -1,4 +1,4 @@
-// Your County (v0.2.0; Scott chose A of notes/yp-front-A-desk-2026-10-22.png): three tiles, This Season So Far, and the
+// Your County (v0.2.0; the landing page before it for anyone signed out, v0.2.4; Scott chose A of notes/yp-front-A-desk-2026-10-22.png): three tiles, This Season So Far, and the
 // county's yields since 2000 with the model's 80% ranges. Every number comes from /api/county (yieldpred/web/county.py),
 // built from the same files as the Streamlit app. No HTML strings: every piece is built as an element, so a county name
 // can never become markup.
@@ -274,6 +274,15 @@
     window.ypStreamlitBase = (status.streamlit_url || "").replace(/\/$/, "");
     const place = status.user?.place;
     const asked = params.get("county");
+    // v0.2.4: signed out, the front page is the landing page (index.html #landing) until someone asks for a county:
+    // See Your County (?view=county), a county link (?county=), or the crop switch, which keeps those.
+    if (!status.user && !valid(asked) && params.get("view") !== "county") {
+      $("land-signin").classList.toggle("hidden", !status.sign_in);
+      document.body.dataset.view = "landing";
+      document.title = "Yield Predictor: your county's corn and soybean yields";
+      return;
+    }
+    document.body.dataset.view = "county";
     if (valid(asked)) return load(asked, place?.fips === asked ? "Your county, from My Farm" : "");
     if (place && valid(place.fips)) return load(place.fips, "Your county, from My Farm");
     const kept = remembered();

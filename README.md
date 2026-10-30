@@ -414,6 +414,12 @@ farmers to yield.cornerpostlogic.com; nothing in the suite links to Streamlit. I
 Streamlit secret `YIELD_PREDICTOR_MOVED = "1"` turns it into one page, "The Yield Predictor Has Moved"
 (`tests/test_moved.py`); it isn't set.
 
+v0.2.4: a **landing page** for people signed out (Scott, 2026-10-30: "We need a splash page like the other apps have for
+when a person is not logged in"; `notes/yp-splash-{desk,phone}-2026-10-30.png`). It says what the app does, shows the
+county page on a computer and a phone, gives three numbers with their sources, and lists what's free and what a
+subscription will add (marked Coming). *See Your County* (`/?view=county`) opens the county page, still free with no
+sign-in; signed-in people go straight to their county. `tests/test_web_pages.py` checks the numbers against the data.
+
 ## Roadmap
 
 - [x] Web app, step 1: a farmer's front page in FastAPI, Sign In With My Farm (v0.2.0)

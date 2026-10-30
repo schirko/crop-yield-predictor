@@ -127,3 +127,43 @@ def test_nothing_sends_anyone_to_streamlit():
         assert "data-streamlit" not in page and ">Maps<" not in page and ">Research<" not in page, name
         assert ">How It Works</a>" not in page, name
     assert "is on Research" not in text("app.js")
+
+
+def test_the_landing_page_is_there_for_people_signed_out():
+    """v0.2.4 (Scott, 2026-10-30: "We need a splash page like the other apps have for when a person is not logged in";
+    notes/yp-splash-*-2026-10-30.png): the landing page sits before the county page, app.js picks one, Help says so."""
+    page, js = text("index.html"), text("app.js")
+    assert page.index('id="landing"') < page.index('<main id="main">')
+    for words in ("What You Get with the Yield Predictor", ">See Your County<", ">Sign In<", "With a Subscription",
+                  "Your County stays free."):
+        assert words in page
+    assert 'dataset.view = "landing"' in js and 'dataset.view = "county"' in js and '"view") !== "county"' in js
+    assert 'href="./?view=county" id="land-county"' in page and 'href="./?view=county" aria-current="page"' in page
+    assert "<i>See Your County</i>" in text("help.html")
+    for shot in ("yield-computer.jpg", "yield-phone.jpg"):
+        assert (WEB / "shots" / shot).stat().st_size < 150_000 and f"shots/{shot}" in page
+
+
+def test_paid_features_on_the_landing_page_are_marked_coming():
+    """Nothing paid is built yet (claude/subscription-benefits.md), so the subscription column says Coming."""
+    page = text("index.html")
+    paid = page[page.index('class="land-col paid"'):page.index('class="land-foot"')]
+    assert ">Coming<" in paid and "nothing is charged today" in page
+
+
+def test_the_landing_page_numbers_match_their_sources():
+    """Every number on the landing page names a source, and these checks recompute them from the same files."""
+    import pandas as pd
+    data = ROOT / "data" / "processed"
+    page = text("index.html")
+    cov = pd.read_parquet(data / "ranges_coverage.parquet")
+    row = cov[(cov["ranges"] == "width scaled to irrigation") & (cov["group"] == "all")].iloc[0]
+    assert f"<b>{round(row['held_pct'])}%</b>" in page and f"{int(row['rows']):,} county-years" in page
+    counties, years = 0, set()
+    for state in ("ne", "ia"):
+        y = pd.read_parquet(data / f"{state}_corn_yield_county.parquet")
+        y = y[y["practice"] == "all"]
+        counties += y["fips"].nunique()
+        years |= set(y["year"])
+    assert f"<b>{counties}</b>" in page and f"<b>{len(years)}</b>" in page
+    assert f"{min(years)} to {max(years)}" in page
